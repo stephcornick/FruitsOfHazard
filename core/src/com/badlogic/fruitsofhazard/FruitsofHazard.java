@@ -1,6 +1,7 @@
 package com.badlogic.fruitsofhazard;
 
 //Mike's comment line test
+//Brian's comment line test
 
 // Prototype Fruits of Hazard
 //Config Setup Tips:
@@ -34,6 +35,7 @@ public class FruitsofHazard implements ApplicationListener {
 
 	//Prototype The head of the orange.
 	private Texture orangeImage;
+//Name: Desktop
 
 	private Texture grapeImage;
 
@@ -41,7 +43,9 @@ public class FruitsofHazard implements ApplicationListener {
 
 	private Sound collectSound;
 	private Music backroundMusic;
+//Name: Desktop
 
+//Name: Desktop
 	private OrthographicCamera camera;
 	private SpriteBatch batch;
 
