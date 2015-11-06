@@ -5,8 +5,16 @@ public class Fruit
     private String direction;
     private float xChord;
     private float yChord;
+    //some kind of image variable should go here
 
     private Fruit next;
+
+    Fruit()
+    {
+        xChord = 0;
+        yChord = 0;
+        next = null;
+    }
 
     Fruit(float x, float y)
     {
