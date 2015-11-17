@@ -128,6 +128,8 @@ public class FruitsofHazard implements ApplicationListener {
 		//UNIMPLEMENTED: Alter to spawn different kinds of fruit.
 		spawnFruit();
 
+		//TO-DO: implement title screen that goes to game screen when clicked
+
 	}
 
 	@Override
@@ -163,6 +165,8 @@ public class FruitsofHazard implements ApplicationListener {
 			batch.draw(grapeImage, fruit.x, fruit.y);
 		}
 		batch.end();
+
+		//TO-DO: motion should probably be in increments of 50 pixels, to facilitate the trail following later.
 
 		//Left key single-press movement.
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
@@ -251,7 +255,8 @@ public class FruitsofHazard implements ApplicationListener {
 				//Adds a generic fruit.
 				//trail.addFruit();
 
-
+				//TO-DO: orange.setScore(getScore() + fruit.getValue());
+				//TO-DO: draw string with orange.getScore()
 
 				iter.remove();
 			}
@@ -263,11 +268,23 @@ public class FruitsofHazard implements ApplicationListener {
 	private void spawnFruit() {
 		Rectangle fruit = new Rectangle();
 
+		//TO-DO: set these up so the positions will be at 50 pixel intervals
 		fruit.x = MathUtils.random(0, 800 - 64);
 		//Prototype
-		fruit.y = MathUtils.random(0, 800-64);;
+		fruit.y = MathUtils.random(0, 800-64);
 
-		fruit.width = 64;
+		//TO-DO: determine fruit to spawn
+		int whichFruit = MathUtils.random(0, 16);
+		/*
+		0 = Banana (rarest)
+		1-2 = Peach (second rarest)
+		3-4 = Durian (roughly as much as Peach)
+		5-6 = OrangeSlice (roughly as much as Peach)
+		7-10 = Lemon (third rarest)
+		11-16 = Grape (least rare)
+		* */
+
+		fruit.width = 64; //these should probably be 50x50, since that's the size of the image files
 		fruit.height = 64;
 		fruitDrops.add(fruit);
 		lastSpawnTime = TimeUtils.nanoTime();
@@ -286,10 +303,12 @@ public class FruitsofHazard implements ApplicationListener {
 	public void resize(int width, int height) {
 	}
 
+	//TO-DO: pause on spacebar
 	@Override
 	public void pause() {
 	}
 
+	//TO-DO: unpause on spacebar
 	@Override
 	public void resume() {
 	}
