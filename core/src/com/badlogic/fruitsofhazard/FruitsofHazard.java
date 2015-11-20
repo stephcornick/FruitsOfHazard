@@ -58,7 +58,9 @@ public class FruitsofHazard implements ApplicationListener {
 	private long lastSpawnTime;
 
 	//Project 1
-	private String framesPerSecond;
+	//Reporposed FPS display to display score instead -Mike
+	private String score;
+	private int scoreVal = 0;
 	BitmapFont font;
 
 	//Prototype Sets a constant movement direction vertically, positive is up, negative down.
@@ -77,8 +79,8 @@ public class FruitsofHazard implements ApplicationListener {
 	@Override
 	public void create () {
 
-		//Prototype Provides Frames per Second
-		framesPerSecond = "FPS: 0";
+		//framesPerSecond = "FPS: 0";
+		scoreVal = 0;
 		font = new BitmapFont();
 
 		// load the images for the droplet and the Orange
@@ -169,10 +171,10 @@ public class FruitsofHazard implements ApplicationListener {
 		font.setColor(5.0f,5.0f,5.0f,5.0f);
 
 		//Prototype processes Frames per second
-		framesPerSecond = ("FPS: " + Gdx.graphics.getFramesPerSecond());
+		score = ("Score: " + scoreVal);
 
 		//Draws FPS at the specified screen position.
-		font.draw(batch, framesPerSecond, 10,475);
+		font.draw(batch, score, 10,70);
 
 		//UNIMPLEMEMTED Alter to draw the chosen fruit image at specified location
 		for(Rectangle fruit: fruitDrops)
@@ -266,6 +268,7 @@ public class FruitsofHazard implements ApplicationListener {
 
 					if (fruitSquare.overlaps(orange)) {
 						collectSound.play();
+						scoreVal=scoreVal+1;
 
 						//Prototype Can be utilized to make the orange flash; orangeFlash is an color-altered PlayerOrange.png
 						//batch.begin();
