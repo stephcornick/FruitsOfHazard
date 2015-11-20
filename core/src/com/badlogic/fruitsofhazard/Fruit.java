@@ -49,6 +49,7 @@ public class Fruit extends Sprite
         super(sprite);
     }
 
+
    /* private String direction;
     private float xChord;
     private float yChord;

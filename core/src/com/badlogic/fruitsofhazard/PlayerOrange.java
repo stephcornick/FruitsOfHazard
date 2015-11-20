@@ -24,12 +24,11 @@ public class PlayerOrange extends Fruit
         score = 0;
         health = 3;
     }
-    PlayerOrange(float x, float y, int s, int h)
+    PlayerOrange(int x, int y, int s, int h)
     {
-        super(x,y);
+        super(orangeImage, x, y, orangeImage.getWidth(), orangeImage.getHeight());
         score = s;
         health = h;
-        //image = orange image
     }
 
     public int getScore()
