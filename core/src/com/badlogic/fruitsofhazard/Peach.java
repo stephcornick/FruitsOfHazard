@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.NumberUtils;
  */
 public class Peach extends CollectorFruit
 {
-    private Texture peachImage = new Texture(Gdx.files.internal("Peach.png"));
+    private static Texture peachImage = new Texture(Gdx.files.internal("Peach.png"));
     Peach()
     {
         super(peachImage, 0, 0, 500);

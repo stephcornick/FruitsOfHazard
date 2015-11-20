@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.NumberUtils;
  */
 public class Lemon extends CollectorFruit
 {
-    private Texture lemonImage = new Texture(Gdx.files.internal("Lemon.png"));
+    private static Texture lemonImage = new Texture(Gdx.files.internal("Lemon.png"));
     Lemon()
     {
         super(lemonImage, 0, 0, 200);

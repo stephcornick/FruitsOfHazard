@@ -1,4 +1,4 @@
-package com.badlogic.fruitsofhazard;
+/*package com.badlogic.fruitsofhazard;
 
 public class LinkedList {
 
@@ -66,4 +66,4 @@ public class LinkedList {
 
     }
 
-}
+}*/

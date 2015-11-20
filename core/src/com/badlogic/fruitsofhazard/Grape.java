@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.NumberUtils;
  */
 public class Grape extends CollectorFruit
 {
-    private Texture grapeImage = new Texture(Gdx.files.internal("Grape.png"));
+    private static Texture grapeImage = new Texture(Gdx.files.internal("Grape.png"));
     Grape()
     {
         super(grapeImage,0,0,100);

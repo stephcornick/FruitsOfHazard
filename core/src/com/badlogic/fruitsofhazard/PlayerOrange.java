@@ -16,7 +16,7 @@ public class PlayerOrange extends Fruit
 {
     private int score;
     private int health;
-    private Texture orangeImage = new Texture(Gdx.files.internal("PlayerOrange.png"));
+    private static Texture orangeImage = new Texture(Gdx.files.internal("PlayerOrange.png"));
 
     PlayerOrange()
     {

@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.NumberUtils;
  */
 public class Banana extends CollectorFruit
 {
-    private Texture bananaImage = new Texture(Gdx.files.internal("Banana.png"));
+    private static Texture bananaImage = new Texture(Gdx.files.internal("Banana.png"));
     Banana()
     {
         super(bananaImage, 0, 0, 1000);

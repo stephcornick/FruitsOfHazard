@@ -32,6 +32,8 @@ package com.badlogic.fruitsofhazard;
 
 public class FruitsofHazard implements ApplicationListener {
 
+	//Implement pause/resume
+	State state = State.RUN;
 
 	//Prototype The head of the orange.
 	private Texture orangeImage;
@@ -143,6 +145,19 @@ public class FruitsofHazard implements ApplicationListener {
 		camera.update();
 
 		batch.setProjectionMatrix(camera.combined);
+
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
+		{
+			if(state == State.RUN)
+			{
+				pause();
+			}
+			else
+			{
+				resume();
+			}
+		}
+
 		batch.begin();
 		batch.draw(orangeImage, orange.x, orange.y);
 
@@ -164,105 +179,116 @@ public class FruitsofHazard implements ApplicationListener {
 		{
 			batch.draw(grapeImage, fruit.x, fruit.y);
 		}
+
+
 		batch.end();
 
-		//TO-DO: motion should probably be in increments of 50 pixels, to facilitate the trail following later.
-
-		//Left key single-press movement.
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+		switch(state)
 		{
-			//Sets the orange to move left at a specified rate.
-			horizontal =-250;
-			vertical = 0;
+			case RUN:
+				//TO-DO: motion should probably be in increments of 50 pixels, to facilitate the trail following later.
 
-			//Sets orange rotation to mirror left movement.
-			rotationFactor = 5;
+				//Left key single-press movement.
+				if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+				{
+					//Sets the orange to move left at a specified rate.
+					horizontal =-250;
+					vertical = 0;
+
+					//Sets orange rotation to mirror left movement.
+					rotationFactor = 5;
+				}
+
+				//Right key single-press movement
+				if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+				{
+					//Sets the orange to move right at a specified rate.
+					horizontal = 250;
+					vertical = 0;
+
+					//Sets orange rotation to mirror right movements.
+					rotationFactor = -5;
+				}
+
+				//Up key single-press movement
+				if(Gdx.input.isKeyPressed(Input.Keys.UP))
+				{
+					//Sets the orange to move up at a specified rate.
+					horizontal = 0;
+					vertical = 250;
+
+					//Sets orange rotation to mirror an upward movement
+					rotationFactor = -5;
+				}
+
+				//Down key single-press movement
+				if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+				{
+					//Sets the orange to move down at a specified rate.
+					horizontal = 0;
+					vertical = -250;
+
+					//Sets orange rotation to mirror a downward movement
+					rotationFactor = 5;
+				}
+
+				//Prototype Moves the orange horizontally and vertically at a constant rate
+				orange.x += horizontal * Gdx.graphics.getDeltaTime();
+				orange.y += vertical *Gdx.graphics.getDeltaTime();
+
+
+				//Prototype Right-to-Left boundary; moves orange to left end if it collides with right boundary
+				if(orange.x > 800 - 50) orange.x = 0;
+				//Solid Boundary; if(orange.x < 0) orange.x = 0;
+
+				//Prototype Left-to-Right boundary; moves orange to right end if it collides with left boundary
+				if(orange.x < 0) orange.x = 800 - 50;
+				//Solid Boundary; if(orange.x > 800 - 50) orange.x = 800 - 50;
+
+
+				//Prototype Lower-to-Upper boundary; moves orange to upper end if it collides with lower boundary
+				if(orange.y < 0) orange.y = 800- 450;
+				//Solid boundary; if(orange.y < 0) orange.y = 0;
+
+				//Prototype Upper-to-Lower boundary; moves orange to Lower end if it collides with upper boundary
+				if(orange.y > 800- 450) orange.y = 0;
+				//Solid boundary; if(orange.y > 800- 450) orange.y = 800 - 450;
+
+				//Prototype increasing spawn rate by reducing delay
+				if(TimeUtils.nanoTime() - lastSpawnTime > 800000000) spawnFruit();
+
+				//Removes fruit that get run over.
+				Iterator<Rectangle> iter = fruitDrops.iterator();
+				while(iter.hasNext())
+				{
+
+					Rectangle fruitSquare= iter.next();
+
+					if (fruitSquare.overlaps(orange)) {
+						collectSound.play();
+
+						//Prototype Can be utilized to make the orange flash; orangeFlash is an color-altered PlayerOrange.png
+						//batch.begin();
+						//batch.draw(orangeFlash, orange.x, orange.y);
+						// batch.end();
+
+						//Adds a generic fruit.
+						//trail.addFruit();
+
+						//TO-DO: orange.setScore(getScore() + fruit.getValue());
+						//TO-DO: draw string with orange.getScore()
+
+						iter.remove();
+					}
+				}
+				//Rotates the orange at a speed and direction set by the rotationFactor.
+				orangeSprite.rotate(rotationFactor);
+				break;
+			case PAUSE:
+				break;
+			default:
+				break;
 		}
-
-		//Right key single-press movement
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-		{
-			//Sets the orange to move right at a specified rate.
-			horizontal = 250;
-			vertical = 0;
-
-			//Sets orange rotation to mirror right movements.
-			rotationFactor = -5;
-		}
-
-		//Up key single-press movement
-		if(Gdx.input.isKeyPressed(Input.Keys.UP))
-		{
-			//Sets the orange to move up at a specified rate.
-			horizontal = 0;
-			vertical = 250;
-
-			//Sets orange rotation to mirror an upward movement
-			rotationFactor = -5;
-		}
-
-		//Down key single-press movement
-		if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-		{
-			//Sets the orange to move down at a specified rate.
-			horizontal = 0;
-			vertical = -250;
-
-			//Sets orange rotation to mirror a downward movement
-			rotationFactor = 5;
-		}
-
-		//Prototype Moves the orange horizontally and vertically at a constant rate
-		orange.x += horizontal * Gdx.graphics.getDeltaTime();
-		orange.y += vertical *Gdx.graphics.getDeltaTime();
-
-
-		//Prototype Right-to-Left boundary; moves orange to left end if it collides with right boundary
-		if(orange.x > 800 - 50) orange.x = 0;
-		//Solid Boundary; if(orange.x < 0) orange.x = 0;
-
-		//Prototype Left-to-Right boundary; moves orange to right end if it collides with left boundary
-		if(orange.x < 0) orange.x = 800 - 50;
-		//Solid Boundary; if(orange.x > 800 - 50) orange.x = 800 - 50;
-
-
-		//Prototype Lower-to-Upper boundary; moves orange to upper end if it collides with lower boundary
-		if(orange.y < 0) orange.y = 800- 450;
-		//Solid boundary; if(orange.y < 0) orange.y = 0;
-
-        //Prototype Upper-to-Lower boundary; moves orange to Lower end if it collides with upper boundary
-        if(orange.y > 800- 450) orange.y = 0;
-        //Solid boundary; if(orange.y > 800- 450) orange.y = 800 - 450;
-
-		//Prototype increasing spawn rate by reducing delay
-		if(TimeUtils.nanoTime() - lastSpawnTime > 800000000) spawnFruit();
-
-		//Removes fruit that get run over.
-		Iterator<Rectangle> iter = fruitDrops.iterator();
-		while(iter.hasNext())
-		{
-
-			Rectangle fruitSquare= iter.next();
-
-			if (fruitSquare.overlaps(orange)) {
-				collectSound.play();
-
-				//Prototype Can be utilized to make the orange flash; orangeFlash is an color-altered PlayerOrange.png
-				//batch.begin();
-				//batch.draw(orangeFlash, orange.x, orange.y);
-				// batch.end();
-
-				//Adds a generic fruit.
-				//trail.addFruit();
-
-				//TO-DO: orange.setScore(getScore() + fruit.getValue());
-				//TO-DO: draw string with orange.getScore()
-
-				iter.remove();
-			}
-		}
-		//Rotates the orange at a speed and direction set by the rotationFactor.
-		orangeSprite.rotate(rotationFactor);
 	}
 
 	private void spawnFruit() {
@@ -305,12 +331,22 @@ public class FruitsofHazard implements ApplicationListener {
 
 	//TO-DO: pause on spacebar
 	@Override
-	public void pause() {
+	public void pause()
+	{
+		this.state = State.PAUSE;
 	}
 
 	//TO-DO: unpause on spacebar
 	@Override
-	public void resume() {
+	public void resume()
+	{
+		this.state = State.RUN;
+	}
+
+	//implement pause/resume
+	public void setGameState(State s)
+	{
+		this.state = s;
 	}
 }
 

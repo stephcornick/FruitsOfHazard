@@ -14,13 +14,13 @@ import com.badlogic.gdx.utils.NumberUtils;
  */
 public class OrangeSlice extends HealthFruit
 {
-    private Texture sliceImage = new Texture(Gdx.files.internal("OrangeSlice.png"));
+    private static Texture sliceImage = new Texture(Gdx.files.internal("OrangeSlice.png"));
     OrangeSlice()
     {
         super(sliceImage, 0, 0, 1);
     }
 
-    OrangeSlice(float x, float y)
+    OrangeSlice(int x, int y)
     {
         super(sliceImage,x, y, 1);
     }
