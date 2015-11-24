@@ -2,70 +2,73 @@ Fruits of Hazard
 Design Document
 
 Project Team:
-Stephanie Cornick
-Michael Del Guercio
-Brian Kancylarz
-Anthony Russo
+*Stephanie Cornick
+*Michael Del Guercio
+*Brian Kancylarz
+*Anthony Russo
 
-
 Game Title
-Fruits of Hazard
+*Fruits of Hazard
 
 Game Overview
-The player controls an orange that must move around the game board, collecting fruits, keeping its health, and avoiding its growing tail.  Some fruits give points for score, some affect health level.  Collecting three of a kind gives a score boost.
+*The player controls an orange that must move around the game board, collecting fruits, keeping its health, and avoiding its growing tail.  Some fruits give points for score, some affect health level.  Collecting three of a kind gives a score boost.
 
 Gameplay
-Setting: The setting is an abstract game board that objects appear and move in.
-Perspective: The perspective is top down in 2D.
-Interaction Model: The arrow keys will direct the orange’s motion.  The edges of the game board will wrap around so that if the orange moves offscreen, it reappears on the opposite side.
-Challenges: The challenge of the game is to avoid running into the tail and avoid collecting durians while navigating the screen in constant motion to pick up fruits.
-Actions: The player will use the arrow keys to control the orange’s motion and navigate around the dangerous areas of the game board to get to the fruits to be collected.
+*Setting: The setting is an abstract game board that objects appear and move in.
+*Perspective: The perspective is top down in 2D.
+*Interaction Model: The arrow keys will direct the orange’s motion.  The edges of the game board will wrap around so that if the orange moves offscreen, it reappears on the opposite side.
+*Challenges: The challenge of the game is to avoid running into the tail and avoid collecting durians while navigating the screen in constant motion to pick up fruits.
+*Actions: The player will use the arrow keys to control the orange’s motion and navigate around the dangerous areas of the game board to get to the fruits to be collected.
 
 Core Features
-User Interaction: Main event loop and results of keystrokes.
-Motion: The orange will move constantly at a uniform speed, directed by the keystrokes of the arrow keys.  The tail behind it will move as a linked list, each item in the list moving to take the place the previous item used to be in.
-Graphics Elements: The background, the top banner, the orange, score display, health display, and each of the other fruits as well as title and game over screens will make up the graphic elements.
-Collisions: The orange needs to detect collisions with everything else.  On collision, there needs to be a check for what the object the orange collided with is, and if it is part of the tail.  Health fruits will change the health, and score fruits will add their associated value to the score and become part of the linked list of the tail.
-Scoring: The score is held as an int.  When a score fruit is collected, the appropriate number is added to the score int, with extra points if three of a kind are collected in a row.
-Fruits: Each kind of fruit will need to be its own kind of object, with the appropriate attributes and values associated with them.  Fruits will also need to appear on the board at certain intervals.
-Opening Screen: A graphic screen displaying the title and design before the menu screen is displayed.
-Quit/Pause: There is way to pause the game at will, a quit function will be added
-Sounds and Music: Background music, and sound effects for fruit collection and score boosts.
+*User Interaction: Main event loop and results of keystrokes.
+*Motion: The orange will move constantly at a uniform speed, directed by the keystrokes of the arrow keys.  The tail behind it will move as a linked list, each item in the list moving to take the place the previous item used to be in.
+*Graphics Elements: The background, the top banner, the orange, score display, health display, and each of the other fruits as well as title and game over screens will make up the graphic elements.
+*Collisions: The orange needs to detect collisions with everything else.  On collision, there needs to be a check for what the object the orange collided with is, and if it is part of the tail.  Health fruits will change the health, and score fruits will add their associated value to the score and become part of the linked list of the tail.
+*Scoring: The score is held as an int.  When a score fruit is collected, the appropriate number is added to the score int, with extra points if three of a kind are collected in a row.
+*Fruits: Each kind of fruit will need to be its own kind of object, with the appropriate attributes and values associated with them.  Fruits will also need to appear on the board at certain intervals.
+*Opening Screen: A graphic screen displaying the title and design before the menu screen is displayed.
+*Quit/Pause: There is way to pause the game at will, a quit function will be added
+*Sounds and Music: Background music, and sound effects for fruit collection and score boosts.
 
 Internal Economy
-The player starts with 3 health, 0 score, and no tail.  
-As they go about playing the game, the tail will grow as they collect fruits, and the score will grow accordingly.  Grapes will give the player 100 points, lemons 200, peaches 500, and bananas 1000.  Each fruit will add one unit to the tail.
-The player’s health will go up and down as they collect orange slices, which raise health by one, and durians, which lower health by one.
+*The player starts with 3 health, 0 score, and no tail.  
+*As they go about playing the game, the tail will grow as they collect fruits, and the score will grow accordingly.  Grapes will give the player 100 points, lemons 200, peaches 500, and bananas 1000.  Each fruit will add one unit to the tail.
+*The player’s health will go up and down as they collect orange slices, which raise health by one, and durians, which lower health by one.
 
 Game Balance
-Positive Feedback: collecting more fruits gains a higher score, collecting orange slices gains more health to play longer, collecting three fruits of one type in a row gains a score boost
-Negative Feedback: collecting durians loses health, running into the tail ends the game
-Difficulty advancement is built into the game.  As the tail gets longer and more durians appear on the board, the board becomes harder to navigate without ending the game.
+*Positive Feedback: collecting more fruits gains a higher score, collecting orange slices gains more health to play longer, collecting three fruits of one type in a row gains a score boost
+*Negative Feedback: collecting durians loses health, running into the tail ends the game
+*Difficulty advancement is built into the game.  As the tail gets longer and more durians appear on the board, the board becomes harder to navigate without ending the game.
 
 Victory Conditions
-The goal  of the game is to gain the highest score possible, which is done by gathering more and more fruits.
-The player reaches a game over if they either run out of health or the orange runs into the tail of fruits.
-When game over is reached, the score is assigned a grade, and the player is sent to a game over screen displaying their score with the corresponding grade and a graphic of a fruit smoothie cup filled to a percentage that matches the grade.
+*The goal  of the game is to gain the highest score possible, which is done by gathering more and more fruits.
+*The player reaches a game over if they either run out of health or the orange runs into the tail of fruits.
+*When game over is reached, the score is assigned a grade, and the player is sent to a game over screen displaying their score with the corresponding grade and a graphic of a fruit smoothie cup filled to a percentage that matches the grade.
 
 Project Organization
-coding: Michael Del Guercio, Stephanie Cornick, Brian Kancylarz, Anthony Russo
-testing: Brian Kancylarz
-documentation: Brian Kancylarz, Michael Del Guercio
-graphics: Stephanie Cornick
-sound: Brian Kancylarz, Anthony Russo
+*coding: Michael Del Guercio, Stephanie Cornick, Brian Kancylarz, Anthony Russo
+*testing: Brian Kancylarz
+*documentation: Brian Kancylarz, Michael Del Guercio
+*graphics: Stephanie Cornick
+*sound: Brian Kancylarz, Anthony Russo
 
 Development Environment
-IDE: libgdx in IntelliJ IDEA
-image editing: Photoshop, 
-sound editing: Audacity
-revision control system: Github
+*IDE: libgdx in IntelliJ IDEA
+*image editing: Photoshop, 
+*sound editing: Audacity
+*revision control system: Github
 
 Graphics
 
 Title screen 
+https://github.com/stephcornick/FruitsOfHazard/blob/master/android/assets/Title%20screen.png?raw=true
 
 Main Menu
+https://github.com/stephcornick/FruitsOfHazard/blob/master/android/assets/Menu.png
 
 Game board
+https://github.com/stephcornick/FruitsOfHazard/blob/master/android/assets/Game%20Board%20example.png?raw=true
 
 Game over
+https://github.com/stephcornick/FruitsOfHazard/blob/master/android/assets/End%20Screen%20example%202.png?raw=true
