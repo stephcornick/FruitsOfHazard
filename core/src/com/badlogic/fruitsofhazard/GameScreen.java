@@ -85,10 +85,10 @@ public class GameScreen implements Screen {
         //Prototype Producing a sprite for the orange.
         orangeSprite = new Sprite(orangeImage);
 
-        //Prototype fruit collection sound, drop.wave used as a placeholder.
-        collectSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+        //Prototype fruit collection sound, drop.wave used as a placeholder, Bravo Riff.mp3 for working sound.
+        collectSound = Gdx.audio.newSound(Gdx.files.internal("Bravo Riff.mp3"));
 
-        //Prototype backround music, rain.mp3 used as a placeholder.
+        //Prototype backround music, rain.mp3 used as a placeholder, BackgroundMusic.mp3 for working sound.
         backroundMusic = Gdx.audio.newMusic(Gdx.files.internal("BackgroundMusic.mp3"));
 
         //Sets background music to play at startup and loop constantly.
