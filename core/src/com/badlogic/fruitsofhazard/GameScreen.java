@@ -130,11 +130,13 @@ public class GameScreen implements Screen {
 
     private void spawnFruit() {
         Rectangle fruit = new Rectangle();
+        //Fruit fruit;
 
         //TO-DO: set these up so the positions will be at 50 pixel intervals
         fruit.x = MathUtils.random(0, 800 - 64);
-        //Prototype
         fruit.y = MathUtils.random(0, 800-64);
+        //int spawnX = MathUtils.random(0, ((800-64)/50));
+        //int spawnY = MathUtils.random(0, ((480-64)/50));
 
         //TO-DO: determine fruit to spawn
         int whichFruit = MathUtils.random(0, 16);
@@ -146,6 +148,39 @@ public class GameScreen implements Screen {
 		7-10 = Lemon (third rarest)
 		11-16 = Grape (least rare)
 		* */
+        /*
+        if(whichFruit = 0)
+        {
+            fruit = new Banana();
+            fruit.draw(batch)
+        }
+        else if(whichFruit >= 1 && whichFruit <= 2)
+        {
+            fruit = new Peach();
+            fruit.draw(batch)
+        }
+        else if(whichFruit >= 3 && whichFruit <= 4)
+        {
+            fruit = new Durian();
+            fruit.draw(batch)
+        }
+        else if(whichFruit >= 5 && whichFruit <= 6)
+        {
+            fruit = new OrangeSlice();
+            fruit.draw(batch)
+        }
+        else if(whichFruit >= 7 && whichFruit <= 10)
+        {
+            fruit = new Lemon();
+            fruit.draw(batch)
+        }
+        else if(whichFruit >= 11 && whichFruit <= 16)
+        {
+            fruit = new Durian();
+            fruit.draw(batch)
+        }
+
+        * */
 
         fruit.width = 64; //these should probably be 50x50, since that's the size of the image files
         fruit.height = 64;
@@ -293,7 +328,7 @@ public class GameScreen implements Screen {
                             // batch.end();
 
                             //Adds a generic fruit.
-                            //trail.addFruit();
+                            //trail.add(fruit);
 
                             //TO-DO: orange.setScore(getScore() + fruit.getValue());
                             //TO-DO: draw string with orange.getScore()
