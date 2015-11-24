@@ -5,10 +5,12 @@ package com.badlogic.fruitsofhazard;
         import com.badlogic.gdx.graphics.GL20;
         import com.badlogic.gdx.graphics.OrthographicCamera;
         import com.badlogic.gdx.graphics.Texture;
+        import com.badlogic.gdx.utils.TimeUtils;
 
-        public class MainMenuScreen implements Screen {
+public class MainMenuScreen implements Screen {
 
             private Texture texture;
+            private long delayTest;
             final FruitsofHazard game;
             OrthographicCamera camera;
 
@@ -18,6 +20,7 @@ package com.badlogic.fruitsofhazard;
                    camera = new OrthographicCamera();
                    camera.setToOrtho(false, 800, 480);
                    texture = new Texture(Gdx.files.internal("Menu.png"));
+                   delayTest = TimeUtils.nanoTime();
 
                }
 
@@ -30,11 +33,10 @@ package com.badlogic.fruitsofhazard;
 
                     game.batch.begin();
                     game.batch.draw(texture, 0, 0, 800, 480, 0, 0, 1500, 1050, false, false);
-                    game.font.draw(game.batch, "Fruits of Hazard ", 100, 150);
                     game.font.draw(game.batch, "Tap to Start", 100, 100);
                     game.batch.end();
 
-                    if (Gdx.input.isTouched()) {
+                    if (Gdx.input.justTouched()) {
                         game.setScreen(new GameScreen(game));
                         dispose();
                     }
