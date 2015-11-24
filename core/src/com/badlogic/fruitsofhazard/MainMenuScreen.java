@@ -10,7 +10,6 @@ package com.badlogic.fruitsofhazard;
 public class MainMenuScreen implements Screen {
 
             private Texture texture;
-            private long delayTest;
             final FruitsofHazard game;
             OrthographicCamera camera;
 
@@ -20,11 +19,11 @@ public class MainMenuScreen implements Screen {
                    camera = new OrthographicCamera();
                    camera.setToOrtho(false, 800, 480);
                    texture = new Texture(Gdx.files.internal("Menu.png"));
-                   delayTest = TimeUtils.nanoTime();
 
                }
 
                 @Override
+                //TO-DO: implement selection for menu items
             public void render(float delta) {
                     Gdx.gl.glClearColor(0, 0, 0.2f, 1);
                     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
