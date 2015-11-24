@@ -135,8 +135,8 @@ public class GameScreen implements Screen {
         //TO-DO: set these up so the positions will be at 50 pixel intervals
         fruit.x = MathUtils.random(0, 800 - 64);
         fruit.y = MathUtils.random(0, 800-64);
-        //int spawnX = MathUtils.random(0, ((800-64)/50));
-        //int spawnY = MathUtils.random(0, ((480-64)/50));
+        //int spawnX = MathUtils.random(0, ((800-64)/50)) * 50;
+        //int spawnY = MathUtils.random(0, ((480-64)/50)) * 50;
 
         //TO-DO: determine fruit to spawn
         int whichFruit = MathUtils.random(0, 16);
@@ -152,32 +152,32 @@ public class GameScreen implements Screen {
         if(whichFruit = 0)
         {
             fruit = new Banana();
-            fruit.draw(batch)
+            fruit.draw(batch, spawnX, spawnY)
         }
         else if(whichFruit >= 1 && whichFruit <= 2)
         {
             fruit = new Peach();
-            fruit.draw(batch)
+            fruit.draw(batch, spawnX, spawnY)
         }
         else if(whichFruit >= 3 && whichFruit <= 4)
         {
             fruit = new Durian();
-            fruit.draw(batch)
+            fruit.draw(batch, spawnX, spawnY)
         }
         else if(whichFruit >= 5 && whichFruit <= 6)
         {
             fruit = new OrangeSlice();
-            fruit.draw(batch)
+            fruit.draw(batch, spawnX, spawnY)
         }
         else if(whichFruit >= 7 && whichFruit <= 10)
         {
             fruit = new Lemon();
-            fruit.draw(batch)
+            fruit.draw(batch, spawnX, spawnY)
         }
         else if(whichFruit >= 11 && whichFruit <= 16)
         {
-            fruit = new Durian();
-            fruit.draw(batch)
+            fruit = new Grape();
+            fruit.draw(batch, spawnX, spawnY)
         }
 
         * */
