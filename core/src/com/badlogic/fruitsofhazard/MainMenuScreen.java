@@ -4,34 +4,37 @@ package com.badlogic.fruitsofhazard;
         import com.badlogic.gdx.Screen;
         import com.badlogic.gdx.graphics.GL20;
         import com.badlogic.gdx.graphics.OrthographicCamera;
+        import com.badlogic.gdx.graphics.Texture;
 
         public class MainMenuScreen implements Screen {
 
-        final FruitsofHazard game;
-        OrthographicCamera camera;
+            private Texture texture;
+            final FruitsofHazard game;
+            OrthographicCamera camera;
 
-               public MainMenuScreen(final FruitsofHazard gam)
+            public MainMenuScreen(final FruitsofHazard gam)
                {
                    game = gam;
+                   camera = new OrthographicCamera();
+                   camera.setToOrtho(false, 800, 480);
+                   texture = new Texture(Gdx.files.internal("Menu.png"));
 
-                        camera = new OrthographicCamera();
-                camera.setToOrtho(false, 800, 480);
-
-                   }
+               }
 
                 @Override
-        public void render(float delta) {
-                Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            public void render(float delta) {
+                    Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+                    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                     camera.update();
                     game.batch.setProjectionMatrix(camera.combined);
 
-                        game.batch.begin();
-                game.font.draw(game.batch, "Fruits of Hazard ", 100, 150);
-                game.font.draw(game.batch, "Tap to Start", 100, 100);
-                game.batch.end();
+                    game.batch.begin();
+                    game.batch.draw(texture, 0, 0, 800, 480, 0, 0, 1500, 1050, false, false);
+                    game.font.draw(game.batch, "Fruits of Hazard ", 100, 150);
+                    game.font.draw(game.batch, "Tap to Start", 100, 100);
+                    game.batch.end();
 
-                        if (Gdx.input.isTouched()) {
+                    if (Gdx.input.isTouched()) {
                         game.setScreen(new GameScreen(game));
                         dispose();
                     }

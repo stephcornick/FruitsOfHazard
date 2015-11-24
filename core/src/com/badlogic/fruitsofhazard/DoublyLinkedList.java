@@ -28,6 +28,7 @@
  * @author Roberto Tamassia
  * @author Michael H. Goldwasser
  */
+package com.badlogic.fruitsofhazard;
 import java.util.*;
 public class DoublyLinkedList<E> implements Iterable<E> {
 
@@ -115,8 +116,8 @@ public class DoublyLinkedList<E> implements Iterable<E> {
 
     /** Constructs a new empty list. */
     public DoublyLinkedList() {
-        header = new Node<>(null, null, null);      // create header
-        trailer = new Node<>(null, header, null);   // trailer is preceded by header
+        header = new Node<E>(null, null, null);      // create header
+        trailer = new Node<E>(null, header, null);   // trailer is preceded by header
         header.setNext(trailer);                    // header is followed by trailer
     }
     
@@ -286,7 +287,7 @@ public class DoublyLinkedList<E> implements Iterable<E> {
      */
     private void addBetween(E e, Node<E> predecessor, Node<E> successor) {
         // create and link a new node
-        Node<E> newest = new Node<>(e, predecessor, successor);
+        Node<E> newest = new Node<E>(e, predecessor, successor);
         predecessor.setNext(newest);
         successor.setPrev(newest);
         size++;
