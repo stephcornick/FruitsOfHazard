@@ -49,6 +49,9 @@ public class Fruit extends Sprite
         super(sprite);
     }
 
+    public void setPosition (float x, float y) {
+        translate(x - getX(), y - getY());
+    }
 
    /* private String direction;
     private float xChord;

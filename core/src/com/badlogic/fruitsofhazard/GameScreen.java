@@ -46,6 +46,7 @@ public class GameScreen implements Screen {
         private SpriteBatch batch;
         private Rectangle orange;
         private Array<Rectangle> fruitDrops;
+        private Array<Fruit> gameFruits;
         private long lastSpawnTime;
 
         //Project 1
@@ -106,6 +107,7 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, 800, 400);
 
         batch = new SpriteBatch();
+        batch.begin();
 
 
         //Prototype Creates a rectangle to represent a hit box for the orange.
@@ -120,23 +122,25 @@ public class GameScreen implements Screen {
         orange.height = 64;
 
         fruitDrops = new Array<Rectangle>();
+        gameFruits = new Array<Fruit>();
 
         //UNIMPLEMENTED: Alter to spawn different kinds of fruit.
         spawnFruit();
+        batch.end();
 
         //TO-DO: implement title screen that goes to game screen when clicked
 
     }
 
     private void spawnFruit() {
-        Rectangle fruit = new Rectangle();
+        //Rectangle fruit = new Rectangle();
         //Fruit fruit;
 
         //TO-DO: set these up so the positions will be at 50 pixel intervals
-        fruit.x = MathUtils.random(0, 800 - 64);
-        fruit.y = MathUtils.random(0, 800-64);
-        //int spawnX = MathUtils.random(0, ((800-64)/50));
-        //int spawnY = MathUtils.random(0, ((480-64)/50));
+        //fruit.x = MathUtils.random(0, 800 - 64);
+        //fruit.y = MathUtils.random(0, 800-64);
+        int spawnX = MathUtils.random(0, ((800-64)/50)) * 50;
+        int spawnY = MathUtils.random(0, ((480-64)/50)) * 50;
 
         //TO-DO: determine fruit to spawn
         int whichFruit = MathUtils.random(0, 16);
@@ -148,43 +152,42 @@ public class GameScreen implements Screen {
 		7-10 = Lemon (third rarest)
 		11-16 = Grape (least rare)
 		* */
-        /*
-        if(whichFruit = 0)
+
+        if(whichFruit == 0)
         {
-            fruit = new Banana();
-            fruit.draw(batch)
+            Banana fruit = new Banana(spawnX, spawnY);
+            gameFruits.add(fruit);
         }
         else if(whichFruit >= 1 && whichFruit <= 2)
         {
-            fruit = new Peach();
-            fruit.draw(batch)
+            Peach fruit = new Peach(spawnX, spawnY);
+            gameFruits.add(fruit);
         }
         else if(whichFruit >= 3 && whichFruit <= 4)
         {
-            fruit = new Durian();
-            fruit.draw(batch)
+            Durian fruit = new Durian(spawnX, spawnY);
+            gameFruits.add(fruit);
         }
         else if(whichFruit >= 5 && whichFruit <= 6)
         {
-            fruit = new OrangeSlice();
-            fruit.draw(batch)
+            OrangeSlice fruit = new OrangeSlice(spawnX, spawnY);
+            gameFruits.add(fruit);
         }
         else if(whichFruit >= 7 && whichFruit <= 10)
         {
-            fruit = new Lemon();
-            fruit.draw(batch)
+            Lemon fruit = new Lemon(spawnX, spawnY);
+            gameFruits.add(fruit);
         }
         else if(whichFruit >= 11 && whichFruit <= 16)
         {
-            fruit = new Durian();
-            fruit.draw(batch)
+            Grape fruit = new Grape(spawnX, spawnY);
+            gameFruits.add(fruit);
         }
 
-        * */
 
-        fruit.width = 64; //these should probably be 50x50, since that's the size of the image files
-        fruit.height = 64;
-        fruitDrops.add(fruit);
+       // fruit.width = 64;
+       // fruit.height = 64;
+       // fruitDrops.add(fruit);
         lastSpawnTime = TimeUtils.nanoTime();
     }
 
@@ -229,9 +232,15 @@ public class GameScreen implements Screen {
             font.draw(batch, score, 10,390);
 
             //UNIMPLEMEMTED Alter to draw the chosen fruit image at specified location
+            /*
             for(Rectangle fruit: fruitDrops)
             {
                 batch.draw(grapeImage, fruit.x, fruit.y);
+            }
+            */
+            for(Fruit fruit: gameFruits)
+            {
+                fruit.draw(batch);
             }
 
 
@@ -309,14 +318,16 @@ public class GameScreen implements Screen {
                     //Solid boundary; if(orange.y > 800- 450) orange.y = 800 - 450;
 
                     //Prototype increasing spawn rate by reducing delay
-                    if(TimeUtils.nanoTime() - lastSpawnTime > 800000000) spawnFruit();
+                    if(TimeUtils.nanoTime() - lastSpawnTime > 160000000) spawnFruit();
 
                     //Removes fruit that get run over.
-                    Iterator<Rectangle> iter = fruitDrops.iterator();
+                    //Iterator<Rectangle> iter = fruitDrops.iterator();
+                    Iterator<Fruit> iter = gameFruits.iterator();
                     while(iter.hasNext())
                     {
 
-                        Rectangle fruitSquare= iter.next();
+                        Fruit nextFruit = iter.next();
+                        Rectangle fruitSquare= nextFruit.getBoundingRectangle();
 
                         if (fruitSquare.overlaps(orange)) {
                             collectSound.play();

@@ -26,7 +26,10 @@ public class PlayerOrange extends Fruit
     }
     PlayerOrange(int x, int y, int s, int h)
     {
-        super(orangeImage, x, y, orangeImage.getWidth(), orangeImage.getHeight());
+        super(orangeImage, orangeImage.getWidth(), orangeImage.getHeight());
+        float fx = (float) x;
+        float fy = (float) y;
+        super.setPosition(fx, fy);
         score = s;
         health = h;
     }

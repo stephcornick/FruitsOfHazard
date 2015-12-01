@@ -24,7 +24,10 @@ public class CollectorFruit extends Fruit
 
     CollectorFruit(Texture texture, int x, int y, int v)
     {
-        super(texture, x, y, texture.getWidth(), texture.getHeight());
+        super(texture, texture.getWidth(), texture.getHeight());
+        float fx = (float) x;
+        float fy = (float) y;
+        super.setPosition(fx, fy);
         value = v;
     }
 

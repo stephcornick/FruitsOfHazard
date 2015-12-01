@@ -25,7 +25,10 @@ public class HealthFruit extends Fruit
 
     HealthFruit(Texture texture, int x, int y, float v)
     {
-        super(texture, x, y, texture.getWidth(), texture.getHeight());
+        super(texture, texture.getWidth(), texture.getHeight());
+        float fx = (float) x;
+        float fy = (float) y;
+        super.setPosition(fx, fy);
         value = v;
     }
 
