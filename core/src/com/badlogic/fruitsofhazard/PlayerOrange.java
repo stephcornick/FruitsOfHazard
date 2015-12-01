@@ -21,6 +21,9 @@ public class PlayerOrange extends Fruit
     PlayerOrange()
     {
         super(orangeImage);
+        float fx = 400/ 2 - 64 / 2;
+        float fy = 400/ 2 - 64 / 2;
+        super.setPosition(fx, fy);
         score = 0;
         health = 3;
     }

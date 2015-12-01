@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
         private Music backroundMusic;
         private OrthographicCamera camera;
         private SpriteBatch batch;
-        private Rectangle orange;
+        private PlayerOrange orange;
         private Array<Rectangle> fruitDrops;
         private Array<Fruit> gameFruits;
         private long lastSpawnTime;
@@ -85,6 +85,7 @@ public class GameScreen implements Screen {
 
         //Prototype Producing a sprite for the orange.
         orangeSprite = new Sprite(orangeImage);
+        orange = new PlayerOrange();
 
         //Prototype fruit collection sound, drop.wave used as a placeholder, Bravo Riff.mp3 for working sound.
         collectSound = Gdx.audio.newSound(Gdx.files.internal("Bravo Riff.mp3"));
@@ -109,7 +110,7 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         batch.begin();
 
-
+        /*
         //Prototype Creates a rectangle to represent a hit box for the orange.
         orange = new Rectangle();
 
@@ -120,6 +121,7 @@ public class GameScreen implements Screen {
         //Sets the size of the orange rectangle
         orange.width = 64;
         orange.height = 64;
+        */
 
         fruitDrops = new Array<Rectangle>();
         gameFruits = new Array<Fruit>();
@@ -216,17 +218,20 @@ public class GameScreen implements Screen {
 
             batch.begin();
 
-            batch.draw(orangeImage, orange.x, orange.y);
+            batch.draw(orangeImage, orange.getX(), orange.getY());
 
             //Prototype continuously redraws the orange sprite; if there is a non-zero rotationFactor, it will spin.
-            orangeSprite.setPosition(orange.x,orange.y);
-            orangeSprite.draw(batch);
+            //orangeSprite.setPosition(orange.x,orange.y);
+            //orangeSprite.draw(batch);
+            orange.setPosition(orange.getX(), orange.getY());
+            orange.draw(batch);
 
             //Prototype Sets FPS font color
             font.setColor(5.0f,5.0f,5.0f,5.0f);
 
             //Prototype processes Frames per second
-            score = ("Score: " + scoreVal + "\nPress [space] to pause");
+            //score = ("Score: " + scoreVal + "\nPress [space] to pause");
+            score = ("Score: " + orange.getScore() + "\nPress [space] to pause");
 
             //Draws FPS at the specified screen position.
             font.draw(batch, score, 10,390);
@@ -255,7 +260,7 @@ public class GameScreen implements Screen {
                     if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
                     {
                         //Sets the orange to move left at a specified rate.
-                        horizontal =-250;
+                        horizontal =-1;
                         vertical = 0;
 
                         //Sets orange rotation to mirror left movement.
@@ -266,7 +271,7 @@ public class GameScreen implements Screen {
                     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
                     {
                         //Sets the orange to move right at a specified rate.
-                        horizontal = 250;
+                        horizontal = 1;
                         vertical = 0;
 
                         //Sets orange rotation to mirror right movements.
@@ -278,7 +283,7 @@ public class GameScreen implements Screen {
                     {
                         //Sets the orange to move up at a specified rate.
                         horizontal = 0;
-                        vertical = 250;
+                        vertical = 1;
 
                         //Sets orange rotation to mirror an upward movement
                         rotationFactor = -5;
@@ -289,32 +294,44 @@ public class GameScreen implements Screen {
                     {
                         //Sets the orange to move down at a specified rate.
                         horizontal = 0;
-                        vertical = -250;
+                        vertical = -1;
 
                         //Sets orange rotation to mirror a downward movement
                         rotationFactor = 5;
                     }
 
                     //Prototype Moves the orange horizontally and vertically at a constant rate
-                    orange.x += horizontal * Gdx.graphics.getDeltaTime();
-                    orange.y += vertical *Gdx.graphics.getDeltaTime();
-
+                    //orange.x += horizontal * Gdx.graphics.getDeltaTime();
+                    //orange.y += vertical *Gdx.graphics.getDeltaTime();
+                    orange.setPosition(orange.getX() + horizontal, orange.getY() + vertical);
 
                     //Prototype Right-to-Left boundary; moves orange to left end if it collides with right boundary
-                    if(orange.x > 800 - 50) orange.x = 0;
+                    if(orange.getX() > 800 - 50)
+                    {
+                        orange.setPosition(0, orange.getY());
+                    }
                     //Solid Boundary; if(orange.x < 0) orange.x = 0;
 
                     //Prototype Left-to-Right boundary; moves orange to right end if it collides with left boundary
-                    if(orange.x < 0) orange.x = 800 - 50;
+                    if(orange.getX() < 0)
+                    {
+                        orange.setPosition(800-50, orange.getY());
+                    }
                     //Solid Boundary; if(orange.x > 800 - 50) orange.x = 800 - 50;
 
 
                     //Prototype Lower-to-Upper boundary; moves orange to upper end if it collides with lower boundary
-                    if(orange.y < 0) orange.y = 800- 450;
+                    if(orange.getY() < 0)
+                    {
+                        orange.setPosition(orange.getX(), 800-450);
+                    }
                     //Solid boundary; if(orange.y < 0) orange.y = 0;
 
                     //Prototype Upper-to-Lower boundary; moves orange to Lower end if it collides with upper boundary
-                    if(orange.y > 800- 450) orange.y = 0;
+                    if(orange.getY() > 800- 450)
+                    {
+                        orange.setPosition(orange.getX(), 0);
+                    }
                     //Solid boundary; if(orange.y > 800- 450) orange.y = 800 - 450;
 
                     //Prototype increasing spawn rate by reducing delay
@@ -329,10 +346,18 @@ public class GameScreen implements Screen {
                         Fruit nextFruit = iter.next();
                         Rectangle fruitSquare= nextFruit.getBoundingRectangle();
 
-                        if (fruitSquare.overlaps(orange)) {
+                        if (fruitSquare.overlaps(orange.getBoundingRectangle())) {
                             collectSound.play();
-
-                            scoreVal=scoreVal+1;
+                            if (nextFruit instanceof CollectorFruit)
+                            {
+                                CollectorFruit cf = (CollectorFruit) nextFruit;
+                                scoreVal = scoreVal + cf.getValue();
+                                //orange.setScore(orange.getScore() + nextFruit.getValue());
+                            }
+                            else if (nextFruit instanceof HealthFruit)
+                            {
+                                //orange.setHealth(orange.getHealth() + nextFruit.getValue());
+                            }
 
                             //Prototype Can be utilized to make the orange flash; orangeFlash is an color-altered PlayerOrange.png
                             //batch.begin();
@@ -349,7 +374,7 @@ public class GameScreen implements Screen {
                         }
                     }
                     //Rotates the orange at a speed and direction set by the rotationFactor.
-                    orangeSprite.rotate(rotationFactor);
+                    //orangeSprite.rotate(rotationFactor);
                     break;
                 case PAUSE:
                     break;

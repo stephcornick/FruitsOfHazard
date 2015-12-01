@@ -13,10 +13,13 @@ import com.badlogic.gdx.utils.NumberUtils;
 
 public class Fruit extends Sprite
 {
+    private String type;
+
 
     public Fruit()
     {
         super();
+        type = "";
     }
 
     public Fruit(Texture texture)
@@ -51,6 +54,16 @@ public class Fruit extends Sprite
 
     public void setPosition (float x, float y) {
         translate(x - getX(), y - getY());
+    }
+
+    public String getType()
+    {
+        return type;
+    }
+
+    public void setType(String newType)
+    {
+        type = newType;
     }
 
    /* private String direction;
