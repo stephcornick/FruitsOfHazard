@@ -318,7 +318,7 @@ public class GameScreen implements Screen {
                     //Solid boundary; if(orange.y > 800- 450) orange.y = 800 - 450;
 
                     //Prototype increasing spawn rate by reducing delay
-                    if(TimeUtils.nanoTime() - lastSpawnTime > 160000000) spawnFruit();
+                    if(TimeUtils.nanoTime() - lastSpawnTime > 1600000000) spawnFruit();
 
                     //Removes fruit that get run over.
                     //Iterator<Rectangle> iter = fruitDrops.iterator();
@@ -331,6 +331,7 @@ public class GameScreen implements Screen {
 
                         if (fruitSquare.overlaps(orange)) {
                             collectSound.play();
+
                             scoreVal=scoreVal+1;
 
                             //Prototype Can be utilized to make the orange flash; orangeFlash is an color-altered PlayerOrange.png
