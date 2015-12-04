@@ -8,18 +8,20 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.TimeUtils;
 
-public class InstructionsScreen implements Screen {
+public class EndScreen implements Screen {
 
     private Texture texture;
     final FruitsofHazard game;
+    private int score;
     OrthographicCamera camera;
 
-    public InstructionsScreen(final FruitsofHazard gam)
+    public EndScreen(final FruitsofHazard gam, int myScore)
     {
         game = gam;
+        score = myScore;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        /*
+
         if (score < 1000)
         {
           texture = new Texture(Gdx.files.internal("EndScreen level 0.png"));
@@ -44,9 +46,8 @@ public class InstructionsScreen implements Screen {
         {
           texture = new Texture(Gdx.files.internal("EndScreen level 5.png")); 
         }
-        */
-        
-        //print "Tap anywhere to return to the menu"
+
+
     }
 
     @Override

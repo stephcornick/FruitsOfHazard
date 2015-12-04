@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.NumberUtils;
 public class PlayerOrange extends Fruit
 {
     private int score;
-    private int health;
+    private float health;
     private static Texture orangeImage = new Texture(Gdx.files.internal("PlayerOrange.png"));
 
     PlayerOrange()
@@ -47,12 +47,12 @@ public class PlayerOrange extends Fruit
         score = newScore;
     }
 
-    public int getHealth()
+    public float getHealth()
     {
         return health;
     }
 
-    public void setHealth(int newHealth)
+    public void setHealth(float newHealth)
     {
         health = newHealth;
     }

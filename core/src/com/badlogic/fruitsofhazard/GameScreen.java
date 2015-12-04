@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
         private int vertical = 0;
 
         //Prototype Sets a constant movement direction horizontally, positive is left, negative right.
-        private int horizontal = 250;
+        private int horizontal = 5;
 
         //Prototype Sets the spinning speed of the orange. Negative values spin the orange clockwise, Positive counter.
         private int rotationFactor = -5;
@@ -231,7 +231,7 @@ public class GameScreen implements Screen {
 
             //Prototype processes Frames per second
             //score = ("Score: " + scoreVal + "\nPress [space] to pause");
-            score = ("Score: " + orange.getScore() + "\nPress [space] to pause");
+            score = ("Score: " + orange.getScore() + "\nHealth: " + orange.getHealth() + "\nPress [space] to pause");
 
             //Draws FPS at the specified screen position.
             font.draw(batch, score, 10,390);
@@ -260,7 +260,7 @@ public class GameScreen implements Screen {
                     if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
                     {
                         //Sets the orange to move left at a specified rate.
-                        horizontal =-1;
+                        horizontal =-5;
                         vertical = 0;
 
                         //Sets orange rotation to mirror left movement.
@@ -271,7 +271,7 @@ public class GameScreen implements Screen {
                     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
                     {
                         //Sets the orange to move right at a specified rate.
-                        horizontal = 1;
+                        horizontal = 5;
                         vertical = 0;
 
                         //Sets orange rotation to mirror right movements.
@@ -283,7 +283,7 @@ public class GameScreen implements Screen {
                     {
                         //Sets the orange to move up at a specified rate.
                         horizontal = 0;
-                        vertical = 1;
+                        vertical = 5;
 
                         //Sets orange rotation to mirror an upward movement
                         rotationFactor = -5;
@@ -294,7 +294,7 @@ public class GameScreen implements Screen {
                     {
                         //Sets the orange to move down at a specified rate.
                         horizontal = 0;
-                        vertical = -1;
+                        vertical = -5;
 
                         //Sets orange rotation to mirror a downward movement
                         rotationFactor = 5;
@@ -351,12 +351,17 @@ public class GameScreen implements Screen {
                             if (nextFruit instanceof CollectorFruit)
                             {
                                 CollectorFruit cf = (CollectorFruit) nextFruit;
-                                scoreVal = scoreVal + cf.getValue();
-                                //orange.setScore(orange.getScore() + nextFruit.getValue());
+                                orange.setScore(orange.getScore() + cf.getValue());
                             }
                             else if (nextFruit instanceof HealthFruit)
                             {
-                                //orange.setHealth(orange.getHealth() + nextFruit.getValue());
+                                HealthFruit hf = (HealthFruit) nextFruit;
+                                orange.setHealth(orange.getHealth() + hf.getValue());
+                                if(orange.getHealth() <= 0)
+                                {
+                                    game.setScreen(new EndScreen(game, orange.getScore()));
+                                    dispose();
+                                }
                             }
 
                             //Prototype Can be utilized to make the orange flash; orangeFlash is an color-altered PlayerOrange.png
@@ -374,9 +379,18 @@ public class GameScreen implements Screen {
                         }
                     }
                     //Rotates the orange at a speed and direction set by the rotationFactor.
-                    //orangeSprite.rotate(rotationFactor);
+                    orange.rotate(rotationFactor);
                     break;
                 case PAUSE:
+                    score = "Press [space] to unpause.\nPress Q to return to main menu";
+                    batch.begin();
+                    font.draw(batch, score, 10,330);
+                    batch.end();
+                    if(Gdx.input.isKeyPressed(Keys.Q))
+                    {
+                        game.setScreen(new MainMenuScreen(game));
+                        dispose();
+                    }
                     break;
                 default:
                     break;
