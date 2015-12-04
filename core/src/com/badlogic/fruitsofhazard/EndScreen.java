@@ -32,9 +32,21 @@ public class InstructionsScreen implements Screen {
         {
           texture = new Texture(Gdx.files.internal("EndScreen level 2.png")); 
         }
+        else if (score >= 10000 && score < 20000)
+        {
+          texture = new Texture(Gdx.files.internal("EndScreen level 3.png")); 
+        }
+        else if (score >= 20000 && score < 50000)
+        {
+          texture = new Texture(Gdx.files.internal("EndScreen level 4.png")); 
+        }
+        else if (score >= 50000)
+        {
+          texture = new Texture(Gdx.files.internal("EndScreen level 5.png")); 
+        }
         */
-        texture = new Texture(Gdx.files.internal("Instruction screen.png")); //will make a new background for instructions
-
+        
+        //print "Tap anywhere to return to the menu"
     }
 
     @Override
