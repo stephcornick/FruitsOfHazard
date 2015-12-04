@@ -51,13 +51,13 @@ public class MainMenuScreen implements Screen {
                     quitIcon.setPosition(230, 30);
                     quitIcon.draw(game.batch);
 
-                    game.font.draw(game.batch, "Tap to Start", 100, 100);
+                    //game.font.draw(game.batch, "Tap to Start", 100, 100);
                     game.batch.end();
 
-                    if (Gdx.input.justTouched()) {
+                    /*if (Gdx.input.justTouched()) {
                         game.setScreen(new GameScreen(game));
                         dispose();
-                    }
+                    }*/
 
                     if(select == 1)
                     {
