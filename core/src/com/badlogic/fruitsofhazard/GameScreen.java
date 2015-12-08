@@ -51,6 +51,7 @@ public class GameScreen implements Screen {
         //Reporposed FPS display to display score instead -Mike
         private String score;
         private int scoreVal = 0;
+        private String msg;
         BitmapFont font;
 
         //Prototype Sets a constant movement direction vertically, positive is up, negative down.
@@ -196,7 +197,7 @@ public class GameScreen implements Screen {
             font.setColor(5.0f,5.0f,5.0f,5.0f);
 
             //Processes the score and health values to show continuously
-            score = ("Score: " + orange.getScore() + "\nHealth: " + orange.getHealth() + "\nPress [space] to pause");
+            score = ("Score: " + orange.getScore() + "\nHealth: " + orange.getHealth());
 
             //Draws FPS at the specified screen position.
             font.draw(batch, score, 10,390);
@@ -213,7 +214,11 @@ public class GameScreen implements Screen {
             switch(state)
             {
                 case RUN:
-                    //TO-DO: motion should probably be in increments of 50 pixels, to facilitate the trail following later.
+
+                    batch.begin();
+                    msg = "Press [space] to pause";
+                    font.draw(batch, msg, 10, 345);
+                    batch.end();
 
                     //Left key single-press movement.
                     if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
@@ -353,7 +358,7 @@ public class GameScreen implements Screen {
                     break;
                 case PAUSE:
                     //shows an extra message on a paused screen
-                    String msg = "Press [space] to unpause.\nPress Q to return to main menu";
+                    msg = "Press [space] to unpause.\nPress Q to return to main menu";
                     batch.begin();
                     font.draw(batch, msg, 10,330);
                     batch.end();
