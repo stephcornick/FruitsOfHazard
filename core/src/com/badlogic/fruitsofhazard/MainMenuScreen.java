@@ -7,6 +7,7 @@ package com.badlogic.fruitsofhazard;
         import com.badlogic.gdx.graphics.OrthographicCamera;
         import com.badlogic.gdx.graphics.Texture;
         import com.badlogic.gdx.graphics.g2d.Sprite;
+        import com.badlogic.gdx.math.MathUtils;
         import com.badlogic.gdx.utils.TimeUtils;
 
 public class MainMenuScreen implements Screen {
@@ -14,6 +15,9 @@ public class MainMenuScreen implements Screen {
             private Texture texture;
             final FruitsofHazard game;
             private int select;
+            private Sprite startIcon;
+            private Sprite instructionIcon;
+            private Sprite quitIcon;
             OrthographicCamera camera;
 
             public MainMenuScreen(final FruitsofHazard gam)
@@ -22,6 +26,19 @@ public class MainMenuScreen implements Screen {
                    camera = new OrthographicCamera();
                    camera.setToOrtho(false, 800, 480);
                    texture = new Texture(Gdx.files.internal("Menu.png"));
+
+                   Texture orangeIcon = new Texture(Gdx.files.internal("PlayerOrange.png"));
+                   startIcon = new Sprite(orangeIcon, orangeIcon.getWidth(), orangeIcon.getHeight());
+                   startIcon.setPosition(230, 160);
+
+                   Texture peachIcon = new Texture(Gdx.files.internal("Peach.png"));
+                   instructionIcon = new Sprite(peachIcon, peachIcon.getWidth(), peachIcon.getHeight());
+                   instructionIcon.setPosition(230, 95);
+
+                   Texture bananaIcon = new Texture(Gdx.files.internal("Banana.png"));
+                   quitIcon = new Sprite(bananaIcon, bananaIcon.getWidth(), bananaIcon.getHeight());
+                   quitIcon.setPosition(230, 30);
+
                    select = 1;
                }
 
@@ -36,45 +53,20 @@ public class MainMenuScreen implements Screen {
                     game.batch.begin();
 
                     game.batch.draw(texture, 0, 0, 800, 480, 0, 0, 1500, 1050, false, false);
-                    Texture orangeIcon = new Texture(Gdx.files.internal("PlayerOrange.png"));
-                    Sprite startIcon = new Sprite(orangeIcon, orangeIcon.getWidth(), orangeIcon.getHeight());
-                    startIcon.setPosition(230, 160);
+
                     startIcon.draw(game.batch);
 
-                    Texture peachIcon = new Texture(Gdx.files.internal("Peach.png"));
-                    Sprite instructionIcon = new Sprite(peachIcon, peachIcon.getWidth(), peachIcon.getHeight());
-                    instructionIcon.setPosition(230, 95);
                     instructionIcon.draw(game.batch);
 
-                    Texture bananaIcon = new Texture(Gdx.files.internal("Banana.png"));
-                    Sprite quitIcon = new Sprite(bananaIcon, bananaIcon.getWidth(), bananaIcon.getHeight());
-                    quitIcon.setPosition(230, 30);
                     quitIcon.draw(game.batch);
 
-                    //game.font.draw(game.batch, "Tap to Start", 100, 100);
                     game.batch.end();
-
-                    /*if (Gdx.input.justTouched()) {
-                        game.setScreen(new GameScreen(game));
-                        dispose();
-                    }*/
 
                     if(select == 1)
                     {
-                        //move orange slightly up
-                        //move orange slightly down
-                        if(startIcon.getY() == 160)
-                        {
-                            startIcon.setPosition(startIcon.getX(), 170);
-                        }
-                        if(startIcon.getY() == 170)
-                        {
-                            startIcon.setPosition(startIcon.getX(), 150);
-                        }
-                        if(startIcon.getY() == 150)
-                        {
-                            startIcon.setPosition(startIcon.getX(), 160);
-                        }
+                        startIcon.setPosition(230, 160);
+                        int num = MathUtils.random(-1, 1);
+                        startIcon.setPosition(startIcon.getX(), startIcon.getY() + (num * 5));
 
                         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
                         {
@@ -84,18 +76,20 @@ public class MainMenuScreen implements Screen {
                         if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
                         {
                             moveSelectionUp();
-                            startIcon.setPosition(startIcon.getX(), 160);
+                            startIcon.setPosition(230, 160);
                         }
                         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
                         {
                             moveSelectionDown();
-                            startIcon.setPosition(startIcon.getX(), 160);
+                            startIcon.setPosition(230, 160);
                         }
                     }
                     else if(select == 2)
                     {
-                        //move peach slightly up
-                        //move peach slightly down
+                        instructionIcon.setPosition(230, 95);
+                        int num = MathUtils.random(-1, 1);
+                        instructionIcon.setPosition(instructionIcon.getX(), instructionIcon.getY() + (num * 5));
+
                         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
                         {
                             game.setScreen(new InstructionsScreen(game));
@@ -104,16 +98,20 @@ public class MainMenuScreen implements Screen {
                         if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
                         {
                             moveSelectionUp();
+                            instructionIcon.setPosition(230, 95);
                         }
                         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
                         {
                             moveSelectionDown();
+                            instructionIcon.setPosition(230, 95);
                         }
                     }
                     else if(select == 3)
                     {
-                        //move banana slightly up
-                        //move banana slightly down
+                        quitIcon.setPosition(230, 30);
+                        int num = MathUtils.random(-1, 1);
+                        quitIcon.setPosition(quitIcon.getX(), quitIcon.getY() + (num * 5));
+
                         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
                         {
                             System.exit(0);
@@ -121,10 +119,12 @@ public class MainMenuScreen implements Screen {
                         if(Gdx.input.isKeyJustPressed(Input.Keys.UP))
                         {
                             moveSelectionUp();
+                            quitIcon.setPosition(230, 30);
                         }
                         if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
                         {
                             moveSelectionDown();
+                            quitIcon.setPosition(230, 30);
                         }
                     }
 

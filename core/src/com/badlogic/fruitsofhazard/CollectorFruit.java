@@ -15,11 +15,13 @@ import com.badlogic.gdx.utils.NumberUtils;
 public class CollectorFruit extends Fruit
 {
     private int value;
+    private boolean isInList;
 
     CollectorFruit()
     {
         super();
         value = 0;
+        isInList = false;
     }
 
     CollectorFruit(Texture texture, int x, int y, int v)
@@ -29,6 +31,7 @@ public class CollectorFruit extends Fruit
         float fy = (float) y;
         super.setPosition(fx, fy);
         value = v;
+        isInList = false;
     }
 
     public int getValue()
@@ -39,5 +42,15 @@ public class CollectorFruit extends Fruit
     public void setValue(int newValue)
     {
         value = newValue;
+    }
+
+    public boolean getIsInList()
+    {
+        return isInList;
+    }
+
+    public void setIsInList(boolean set)
+    {
+        isInList = set;
     }
 }

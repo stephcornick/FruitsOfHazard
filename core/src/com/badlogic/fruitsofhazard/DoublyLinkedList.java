@@ -241,6 +241,26 @@ public class DoublyLinkedList<E> implements Iterable<E> {
         return trailer.getPrev().getElement();    // last element is before trailer
     }
 
+    public E secondLast()
+    {
+        if (isEmpty() || size < 2)
+        {
+            return null;
+        }
+
+        return trailer.getPrev().getPrev().getElement();
+    }
+
+    public E thirdLast()
+    {
+        if (isEmpty() || size < 3)
+        {
+            return null;
+        }
+
+        return trailer.getPrev().getPrev().getPrev().getElement();
+    }
+
     // public update methods
     /**
      * Adds an element to the front of the list.

@@ -37,17 +37,15 @@ public class GameScreen implements Screen {
 
 
         //Prototype The head of the orange.
-        private Texture orangeImage;
-        private Texture grapeImage;
-        private Sprite orangeSprite;
-        private Sound collectSound;
-        private Music backroundMusic;
-        private OrthographicCamera camera;
-        private SpriteBatch batch;
-        private PlayerOrange orange;
+        private Sound collectSound; //holds the sound to be played on fruit collection
+        private Music backroundMusic; //holds the background music
+        private OrthographicCamera camera; //the camera
+        private SpriteBatch batch; //the sprite batch
+        private PlayerOrange orange; //the orange sprite that the plater controls
         private Array<Rectangle> fruitDrops;
-        private Array<Fruit> gameFruits;
-        private long lastSpawnTime;
+        private Array<Fruit> gameFruits; //an array of fruits in the game
+        private DoublyLinkedList<CollectorFruit> fruitTrail; //the trail of collected fruits that will follow the orange
+        private long lastSpawnTime; //counter that keeps track of the time between fruit spawning
 
         //Project 1
         //Reporposed FPS display to display score instead -Mike
@@ -64,27 +62,18 @@ public class GameScreen implements Screen {
         //Prototype Sets the spinning speed of the orange. Negative values spin the orange clockwise, Positive counter.
         private int rotationFactor = -5;
 
-        //Prototype Utilizing a linked list to track the tail.
-        //LinkedList trail = new LinkedList();
-
 
     public GameScreen(final FruitsofHazard gam)
     {
         this.game = gam;
 
-        //framesPerSecond = "FPS: 0";
-        scoreVal = 0;
+        //initializing the font
         font = new BitmapFont();
-
-        // load the images for the droplet and the Orange
-        grapeImage = new Texture(Gdx.files.internal("Grape.png"));
-        orangeImage = new Texture(Gdx.files.internal("PlayerOrange.png"));
 
         //Prototype can be utilized to make the orange flash/change momentarily.
         //orangeFlash = new Texture(Gdx.files.internal("orangeFlash.png"));
 
-        //Prototype Producing a sprite for the orange.
-        orangeSprite = new Sprite(orangeImage);
+        //Producing a sprite for the orange.
         orange = new PlayerOrange();
 
         //Prototype fruit collection sound, drop.wave used as a placeholder, Bravo Riff.mp3 for working sound.
@@ -110,20 +99,6 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         batch.begin();
 
-        /*
-        //Prototype Creates a rectangle to represent a hit box for the orange.
-        orange = new Rectangle();
-
-        //Sets the starting position of the orange rectangle.
-        orange.x = 400/ 2 - 64 / 2;
-        orange.y = 400/ 2 - 64 / 2;
-
-        //Sets the size of the orange rectangle
-        orange.width = 64;
-        orange.height = 64;
-        */
-
-        fruitDrops = new Array<Rectangle>();
         gameFruits = new Array<Fruit>();
 
         //UNIMPLEMENTED: Alter to spawn different kinds of fruit.
@@ -135,16 +110,12 @@ public class GameScreen implements Screen {
     }
 
     private void spawnFruit() {
-        //Rectangle fruit = new Rectangle();
-        //Fruit fruit;
 
-        //TO-DO: set these up so the positions will be at 50 pixel intervals
-        //fruit.x = MathUtils.random(0, 800 - 64);
-        //fruit.y = MathUtils.random(0, 800-64);
+        //randomly selects x and y coordinates on intervals of 50 pixels
         int spawnX = MathUtils.random(0, ((800-64)/50)) * 50;
         int spawnY = MathUtils.random(0, ((480-64)/50)) * 50;
 
-        //TO-DO: determine fruit to spawn
+        //random number to determine which fruit to spawn, weighted by rarity
         int whichFruit = MathUtils.random(0, 16);
 		/*
 		0 = Banana (rarest)
@@ -155,6 +126,7 @@ public class GameScreen implements Screen {
 		11-16 = Grape (least rare)
 		* */
 
+        //creates the chosen type of fruit and adds it to the array
         if(whichFruit == 0)
         {
             Banana fruit = new Banana(spawnX, spawnY);
@@ -186,10 +158,7 @@ public class GameScreen implements Screen {
             gameFruits.add(fruit);
         }
 
-
-       // fruit.width = 64;
-       // fruit.height = 64;
-       // fruitDrops.add(fruit);
+       //resets the spawn counter
         lastSpawnTime = TimeUtils.nanoTime();
     }
 
@@ -218,31 +187,21 @@ public class GameScreen implements Screen {
 
             batch.begin();
 
-            batch.draw(orangeImage, orange.getX(), orange.getY());
+            //Continuously redraws the orange sprite; if there is a non-zero rotationFactor, it will spin.
 
-            //Prototype continuously redraws the orange sprite; if there is a non-zero rotationFactor, it will spin.
-            //orangeSprite.setPosition(orange.x,orange.y);
-            //orangeSprite.draw(batch);
             orange.setPosition(orange.getX(), orange.getY());
             orange.draw(batch);
 
-            //Prototype Sets FPS font color
+            //Sets FPS font color
             font.setColor(5.0f,5.0f,5.0f,5.0f);
 
-            //Prototype processes Frames per second
-            //score = ("Score: " + scoreVal + "\nPress [space] to pause");
+            //Processes the score and health values to show continuously
             score = ("Score: " + orange.getScore() + "\nHealth: " + orange.getHealth() + "\nPress [space] to pause");
 
             //Draws FPS at the specified screen position.
             font.draw(batch, score, 10,390);
 
-            //UNIMPLEMEMTED Alter to draw the chosen fruit image at specified location
-            /*
-            for(Rectangle fruit: fruitDrops)
-            {
-                batch.draw(grapeImage, fruit.x, fruit.y);
-            }
-            */
+            //redraw each fruit in the array every frame
             for(Fruit fruit: gameFruits)
             {
                 fruit.draw(batch);
@@ -300,9 +259,7 @@ public class GameScreen implements Screen {
                         rotationFactor = 5;
                     }
 
-                    //Prototype Moves the orange horizontally and vertically at a constant rate
-                    //orange.x += horizontal * Gdx.graphics.getDeltaTime();
-                    //orange.y += vertical *Gdx.graphics.getDeltaTime();
+                    //Moves the orange horizontally and vertically at a constant rate
                     orange.setPosition(orange.getX() + horizontal, orange.getY() + vertical);
 
                     //Prototype Right-to-Left boundary; moves orange to left end if it collides with right boundary
@@ -337,8 +294,7 @@ public class GameScreen implements Screen {
                     //Prototype increasing spawn rate by reducing delay
                     if(TimeUtils.nanoTime() - lastSpawnTime > 1600000000) spawnFruit();
 
-                    //Removes fruit that get run over.
-                    //Iterator<Rectangle> iter = fruitDrops.iterator();
+                    //Removes fruit that get run over and handles what to do in different situations
                     Iterator<Fruit> iter = gameFruits.iterator();
                     while(iter.hasNext())
                     {
@@ -352,28 +308,42 @@ public class GameScreen implements Screen {
                             {
                                 CollectorFruit cf = (CollectorFruit) nextFruit;
                                 orange.setScore(orange.getScore() + cf.getValue());
-                            }
-                            else if (nextFruit instanceof HealthFruit)
-                            {
-                                HealthFruit hf = (HealthFruit) nextFruit;
-                                orange.setHealth(orange.getHealth() + hf.getValue());
-                                if(orange.getHealth() <= 0)
+                                /*
+                                if(cf.getIsInList() == true)
                                 {
                                     game.setScreen(new EndScreen(game, orange.getScore()));
                                     dispose();
                                 }
+                                else
+                                {
+                                    fruitTrail.addLast(cf);
+                                    cf.setIsInList(true);
+
+                                    CollectorFruit one = fruitTrail.last();
+                                    CollectorFruit two = fruitTrail.secondLast();
+                                    CollectorFruit three = fruitTrail.thirdLast();
+
+                                    if (one.getValue() == two.getValue() && one.getValue == three.getValue())
+                                    {
+                                        orange.setScore(orange.getScore() + (cf.getValue() * 3));
+                                    }
+                                    else
+                                    {
+                                        orange.setScore(orange.getScore() + cf.getValue());
+                                    }
+                                }
+                                * */
                             }
-
-                            //Prototype Can be utilized to make the orange flash; orangeFlash is an color-altered PlayerOrange.png
-                            //batch.begin();
-                            //batch.draw(orangeFlash, orange.x, orange.y);
-                            // batch.end();
-
-                            //Adds a generic fruit.
-                            //trail.add(fruit);
-
-                            //TO-DO: orange.setScore(getScore() + fruit.getValue());
-                            //TO-DO: draw string with orange.getScore()
+                            else if (nextFruit instanceof HealthFruit)
+                            {//if the orange runs into a health fruit, the value is added to health
+                                HealthFruit hf = (HealthFruit) nextFruit;
+                                orange.setHealth(orange.getHealth() + hf.getValue());
+                                if(orange.getHealth() <= 0)
+                                {//if health hits zero, game over
+                                    game.setScreen(new EndScreen(game, orange.getScore()));
+                                    dispose();
+                                }
+                            }
 
                             iter.remove();
                         }
@@ -382,12 +352,14 @@ public class GameScreen implements Screen {
                     orange.rotate(rotationFactor);
                     break;
                 case PAUSE:
-                    score = "Press [space] to unpause.\nPress Q to return to main menu";
+                    //shows an extra message on a paused screen
+                    String msg = "Press [space] to unpause.\nPress Q to return to main menu";
                     batch.begin();
-                    font.draw(batch, score, 10,330);
+                    font.draw(batch, msg, 10,330);
                     batch.end();
+
                     if(Gdx.input.isKeyPressed(Keys.Q))
-                    {
+                    {//return to the main menu if Q is pressed
                         game.setScreen(new MainMenuScreen(game));
                         dispose();
                     }
@@ -399,8 +371,6 @@ public class GameScreen implements Screen {
 
         @Override
         public void dispose() {
-            grapeImage.dispose();
-            orangeImage.dispose();
             collectSound.dispose();
             backroundMusic.dispose();
             batch.dispose();

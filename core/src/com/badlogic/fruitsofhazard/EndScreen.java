@@ -2,6 +2,7 @@
 package com.badlogic.fruitsofhazard;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -62,10 +63,10 @@ public class EndScreen implements Screen {
         game.batch.draw(texture, 0, 0, 800, 480, 0, 0, 1500, 1050, false, false);
 
         //TO-DO: implement a "return to menu" button
-        game.font.draw(game.batch, "Tap to Return to Main Menu", 100, 100);
+        game.font.draw(game.batch, "Press Space to Return to Main Menu", 100, 100);
         game.batch.end();
 
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }
