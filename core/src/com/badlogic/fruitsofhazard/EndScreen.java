@@ -24,27 +24,27 @@ public class EndScreen implements Screen {
 
         if (score < 1000)
         {
-          texture = new Texture(Gdx.files.internal("EndScreen level 0.png"));
+          texture = new Texture(Gdx.files.internal("End Screen level 0.png"));
         }
         else if (score >= 1000 && score < 5000)
         {
-          texture = new Texture(Gdx.files.internal("EndScreen level 1.png")); 
+          texture = new Texture(Gdx.files.internal("End Screen level 1.png")); 
         }
         else if (score >= 5000 && score < 10000)
         {
-          texture = new Texture(Gdx.files.internal("EndScreen level 2.png")); 
+          texture = new Texture(Gdx.files.internal("End Screen level 2.png")); 
         }
         else if (score >= 10000 && score < 20000)
         {
-          texture = new Texture(Gdx.files.internal("EndScreen level 3.png")); 
+          texture = new Texture(Gdx.files.internal("End Screen level 3.png")); 
         }
         else if (score >= 20000 && score < 50000)
         {
-          texture = new Texture(Gdx.files.internal("EndScreen level 4.png")); 
+          texture = new Texture(Gdx.files.internal("End Screen level 4.png")); 
         }
         else if (score >= 50000)
         {
-          texture = new Texture(Gdx.files.internal("EndScreen level 5.png")); 
+          texture = new Texture(Gdx.files.internal("End Screen level 5.png")); 
         }
 
 
