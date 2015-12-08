@@ -20,7 +20,7 @@ public class InstructionsScreen implements Screen {
         game = gam;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
-        texture = new Texture(Gdx.files.internal("Instruction screen.png")); //will make a new background for instructions
+        texture = new Texture(Gdx.files.internal("Instructions Screen.png")); //will make a new background for instructions
 
     }
 
