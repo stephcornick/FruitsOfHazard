@@ -120,7 +120,7 @@ public class GameScreen implements Screen {
 
         //randomly selects x and y coordinates on intervals of 50 pixels
         int spawnX = MathUtils.random(0, ((1600-50)/50)) * 50;
-        int spawnY = MathUtils.random(1, ((860-50)/50)) * 50;
+        int spawnY = MathUtils.random(0, ((860-100)/50)) * 50;
 
         //random number to determine which fruit to spawn, weighted by rarity
         int whichFruit = MathUtils.random(0, 16);
@@ -246,12 +246,6 @@ public class GameScreen implements Screen {
             //Sets FPS font color
             font.setColor(5.0f,5.0f,5.0f,5.0f);
 
-            //Processes the score and health values to show continuously
-            score = ("Score: " + orange.getScore() + "\nHealth: " + orange.getHealth());
-
-            //Draws FPS at the specified screen position.
-            font.draw(batch, score, 10,850);
-
             //redraw each fruit in the array every frame
             for(Fruit fruit: gameFruits)
             {
@@ -266,8 +260,8 @@ public class GameScreen implements Screen {
                 case RUN:
 
                     batch.begin();
-                    msg = "Press [space] to pause";
-                    font.draw(batch, msg, 10, 815);
+                    msg = "Score: " + orange.getScore() + "\nHealth: " + orange.getHealth() + "\nPress [space] to pause";
+                    font.draw(batch, msg, 10, 850);
                     batch.end();
 
                     //Left key single-press movement.
@@ -426,9 +420,9 @@ public class GameScreen implements Screen {
                     break;
                 case PAUSE:
                     //shows an extra message on a paused screen
-                    msg = "Press [space] to unpause\nPress Q to return to main menu";
+                    msg = "Score: " + orange.getScore() + "\nHealth: " + orange.getHealth() + "\nPress [space] to unpause\nPress Q to return to main menu";
                     batch.begin();
-                    font.draw(batch, msg, 10,815);
+                    font.draw(batch, msg, 10,850);
                     batch.end();
 
                     if(Gdx.input.isKeyPressed(Keys.Q))
