@@ -53,4 +53,25 @@ public class CollectorFruit extends Fruit
     {
         isInList = set;
     }
+
+    public void moveFruit(String direction)
+    {
+        if(direction == "left")
+        {
+            super.setPosition(super.getY(), super.getX() - 5);
+        }
+        else if(direction == "right")
+        {
+            super.setPosition(super.getY(), super.getX() + 5);
+        }
+        else if(direction == "up")
+        {
+            super.setPosition(super.getY() + 5, super.getX());
+        }
+        else if(direction == "down")
+        {
+            super.setPosition(super.getY() - 5, super.getX());
+        }
+
+    }
 }

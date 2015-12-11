@@ -41,10 +41,11 @@ public class GameScreen implements Screen {
         private Music backroundMusic; //holds the background music
         private OrthographicCamera camera; //the camera
         private SpriteBatch batch; //the sprite batch
-        private PlayerOrange orange; //the orange sprite that the plater controls
-        private Array<Rectangle> fruitDrops;
+        private PlayerOrange orange; //the orange sprite that the player controls
         private Array<Fruit> gameFruits; //an array of fruits in the game
+        private Array<String> turns;
         private DoublyLinkedList<CollectorFruit> fruitTrail; //the trail of collected fruits that will follow the orange
+        private String direction = "right";
         private long lastSpawnTime; //counter that keeps track of the time between fruit spawning
 
         //Project 1
@@ -168,6 +169,14 @@ public class GameScreen implements Screen {
         lastSpawnTime = TimeUtils.nanoTime();
     }
 
+   /* public void addNewTurn(String newTurn)
+    {
+        for(int i=0; i<turns.size; i++)
+        {
+            String temp = turns.get
+        }
+    }*/
+
         //@Override
         public void render (float delta) {
             //Prototype Background Color; RGB? Gets color by dividing the color number by 255f.
@@ -207,7 +216,29 @@ public class GameScreen implements Screen {
                 while(iterC.hasNext())
                 {
                     CollectorFruit c = iterC.next();
-                    yy = yy-50;
+                    if(direction == "up")
+                    {
+                        // yy = (int) orange.getY();
+                        // xx = xx + 50;
+                        xx = (int) orange.getX();
+                        yy = yy - 50;
+                    }
+                    else if(direction == "down")
+                    {
+                        xx = (int) orange.getX();
+                        yy = yy + 50;
+                    }
+                    else if(direction == "left")
+                    {
+                        yy = (int) orange.getY();
+                        xx = xx + 50;
+                    }
+                    else //direction == right
+                    {
+                        yy = (int) orange.getY();
+                        xx = xx - 50;
+                    }
+
                     c.draw(batch);
                     c.setPosition(xx, yy);
                 }
@@ -248,6 +279,7 @@ public class GameScreen implements Screen {
 
                         //Sets orange rotation to mirror left movement.
                         rotationFactor = 5;
+                        direction = "left";
                     }
 
                     //Right key single-press movement
@@ -259,6 +291,7 @@ public class GameScreen implements Screen {
 
                         //Sets orange rotation to mirror right movements.
                         rotationFactor = -5;
+                        direction = "right";
                     }
 
                     //Up key single-press movement
@@ -270,6 +303,7 @@ public class GameScreen implements Screen {
 
                         //Sets orange rotation to mirror an upward movement
                         rotationFactor = -5;
+                        direction = "up";
                     }
 
                     //Down key single-press movement
@@ -281,6 +315,7 @@ public class GameScreen implements Screen {
 
                         //Sets orange rotation to mirror a downward movement
                         rotationFactor = 5;
+                        direction = "down";
                     }
 
                     //Moves the orange horizontally and vertically at a constant rate
@@ -376,6 +411,10 @@ public class GameScreen implements Screen {
                                 {//if health hits zero, game over
                                     game.setScreen(new EndScreen(game, orange.getScore()));
                                     dispose();
+                                }
+                                else if (orange.getHealth() >= 7)
+                                {//health is limited to 7
+                                    orange.setHealth(7);
                                 }
                             }
 
