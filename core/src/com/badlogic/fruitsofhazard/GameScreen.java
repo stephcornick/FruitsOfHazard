@@ -100,6 +100,12 @@ public class GameScreen implements Screen {
         batch.begin();
 
         gameFruits = new Array<Fruit>();
+        fruitTrail = new DoublyLinkedList<CollectorFruit>();
+
+        /*Grape g = new Grape();
+        CollectorFruit cc = (CollectorFruit) g;
+        fruitTrail.addFirst(cc);
+        fruitTrail.addFirst(cc);*/
 
         //UNIMPLEMENTED: Alter to spawn different kinds of fruit.
         spawnFruit();
@@ -192,6 +198,20 @@ public class GameScreen implements Screen {
             orange.setPosition(orange.getX(), orange.getY());
             orange.draw(batch);
 
+            //redraw the fruit trail to follow the orange
+            if(fruitTrail.isEmpty() == false)
+            {
+                Iterator<CollectorFruit> iterC = fruitTrail.iterator();
+                int xx = (int) orange.getX();
+                int yy = (int) orange.getY();
+                while(iterC.hasNext())
+                {
+                    CollectorFruit c = iterC.next();
+                    yy = yy-50;
+                    c.draw(batch);
+                    c.setPosition(xx, yy);
+                }
+            }
             //Sets FPS font color
             font.setColor(5.0f,5.0f,5.0f,5.0f);
 
@@ -315,8 +335,7 @@ public class GameScreen implements Screen {
                             if (nextFruit instanceof CollectorFruit)
                             {
                                 CollectorFruit cf = (CollectorFruit) nextFruit;
-                                orange.setScore(orange.getScore() + cf.getValue());
-                                /*
+
                                 if(cf.getIsInList() == true)
                                 {
                                     game.setScreen(new EndScreen(game, orange.getScore()));
@@ -330,17 +349,24 @@ public class GameScreen implements Screen {
                                     CollectorFruit one = fruitTrail.last();
                                     CollectorFruit two = fruitTrail.secondLast();
                                     CollectorFruit three = fruitTrail.thirdLast();
-
-                                    if (one.getValue() == two.getValue() && one.getValue == three.getValue())
-                                    {
-                                        orange.setScore(orange.getScore() + (cf.getValue() * 3));
-                                    }
-                                    else
+                                    if(one == null || two == null || three == null)
                                     {
                                         orange.setScore(orange.getScore() + cf.getValue());
                                     }
+                                    else
+                                    {
+                                        if (one.getValue() == two.getValue() && one.getValue() == three.getValue())
+                                        {
+                                            orange.setScore(orange.getScore() + (cf.getValue() * 3));
+                                        }
+                                        else
+                                        {
+                                            orange.setScore(orange.getScore() + cf.getValue());
+                                        }
+                                    }
+
                                 }
-                                * */
+
                             }
                             else if (nextFruit instanceof HealthFruit)
                             {//if the orange runs into a health fruit, the value is added to health

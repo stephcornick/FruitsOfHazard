@@ -120,6 +120,7 @@ public class DoublyLinkedList<E> implements Iterable<E> {
         trailer = new Node<E>(null, header, null);   // trailer is preceded by header
         header.setNext(trailer);                    // header is followed by trailer
     }
+
     
     //DoublyLinkedListIterator
     private class DoublyLinkedListIterator implements ListIterator<E>
