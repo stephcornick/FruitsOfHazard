@@ -50,7 +50,6 @@ public class GameScreen implements Screen {
         //Project 1
         //Reporposed FPS display to display score instead -Mike
         private String score;
-        private int scoreVal = 0;
         private String msg;
         BitmapFont font;
 
@@ -95,7 +94,7 @@ public class GameScreen implements Screen {
         //camera.setToOrtho(false, horizontalScreenSize, verticalScreenSize);
 
         //Sets the camera size.
-        camera.setToOrtho(false, 800, 400);
+        camera.setToOrtho(false, 1600, 860);
 
         batch = new SpriteBatch();
         batch.begin();
@@ -113,8 +112,8 @@ public class GameScreen implements Screen {
     private void spawnFruit() {
 
         //randomly selects x and y coordinates on intervals of 50 pixels
-        int spawnX = MathUtils.random(0, ((800-64)/50)) * 50;
-        int spawnY = MathUtils.random(0, ((480-64)/50)) * 50;
+        int spawnX = MathUtils.random(0, ((1600-50)/50)) * 50;
+        int spawnY = MathUtils.random(1, ((860-50)/50)) * 50;
 
         //random number to determine which fruit to spawn, weighted by rarity
         int whichFruit = MathUtils.random(0, 16);
@@ -200,7 +199,7 @@ public class GameScreen implements Screen {
             score = ("Score: " + orange.getScore() + "\nHealth: " + orange.getHealth());
 
             //Draws FPS at the specified screen position.
-            font.draw(batch, score, 10,390);
+            font.draw(batch, score, 10,850);
 
             //redraw each fruit in the array every frame
             for(Fruit fruit: gameFruits)
@@ -217,7 +216,7 @@ public class GameScreen implements Screen {
 
                     batch.begin();
                     msg = "Press [space] to pause";
-                    font.draw(batch, msg, 10, 345);
+                    font.draw(batch, msg, 10, 815);
                     batch.end();
 
                     //Left key single-press movement.
@@ -268,16 +267,18 @@ public class GameScreen implements Screen {
                     orange.setPosition(orange.getX() + horizontal, orange.getY() + vertical);
 
                     //Prototype Right-to-Left boundary; moves orange to left end if it collides with right boundary
-                    if(orange.getX() > 800 - 50)
+                    if(orange.getX() > 1600 - 50)
                     {
-                        orange.setPosition(0, orange.getY());
+                        game.setScreen(new EndScreen(game, orange.getScore()));
+                        dispose();
                     }
                     //Solid Boundary; if(orange.x < 0) orange.x = 0;
 
                     //Prototype Left-to-Right boundary; moves orange to right end if it collides with left boundary
                     if(orange.getX() < 0)
                     {
-                        orange.setPosition(800-50, orange.getY());
+                        game.setScreen(new EndScreen(game, orange.getScore()));
+                        dispose();
                     }
                     //Solid Boundary; if(orange.x > 800 - 50) orange.x = 800 - 50;
 
@@ -285,14 +286,16 @@ public class GameScreen implements Screen {
                     //Prototype Lower-to-Upper boundary; moves orange to upper end if it collides with lower boundary
                     if(orange.getY() < 0)
                     {
-                        orange.setPosition(orange.getX(), 800-450);
+                        game.setScreen(new EndScreen(game, orange.getScore()));
+                        dispose();
                     }
                     //Solid boundary; if(orange.y < 0) orange.y = 0;
 
                     //Prototype Upper-to-Lower boundary; moves orange to Lower end if it collides with upper boundary
-                    if(orange.getY() > 800- 450)
+                    if(orange.getY() > 860 - 50)
                     {
-                        orange.setPosition(orange.getX(), 0);
+                        game.setScreen(new EndScreen(game, orange.getScore()));
+                        dispose();
                     }
                     //Solid boundary; if(orange.y > 800- 450) orange.y = 800 - 450;
 
@@ -358,9 +361,9 @@ public class GameScreen implements Screen {
                     break;
                 case PAUSE:
                     //shows an extra message on a paused screen
-                    msg = "Press [space] to unpause.\nPress Q to return to main menu";
+                    msg = "Press [space] to unpause\nPress Q to return to main menu";
                     batch.begin();
-                    font.draw(batch, msg, 10,330);
+                    font.draw(batch, msg, 10,815);
                     batch.end();
 
                     if(Gdx.input.isKeyPressed(Keys.Q))

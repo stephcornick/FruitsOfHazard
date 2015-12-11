@@ -16,8 +16,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "FruitsofHazard";
-		config.width = 800;
-		config.height = 480;
+		config.width = 1600;
+		config.height = 860;
 		new LwjglApplication(new FruitsofHazard(), config);
 	}
 }
