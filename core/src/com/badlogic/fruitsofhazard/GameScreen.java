@@ -212,6 +212,7 @@ public class GameScreen implements Screen {
             {
                 Iterator<CollectorFruit> iterC = fruitTrail.iterator();
                 int xx = (int) orange.getX();
+                //int xx = 1000 - (fruitTrail.size() * 50);
                 int yy = (int) orange.getY();
                 while(iterC.hasNext())
                 {
@@ -241,6 +242,7 @@ public class GameScreen implements Screen {
 
                     c.draw(batch);
                     c.setPosition(xx, yy);
+                    //xx = xx + 50
                 }
             }
             //Sets FPS font color
