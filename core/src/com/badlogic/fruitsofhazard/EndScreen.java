@@ -27,23 +27,23 @@ public class EndScreen implements Screen {
         {
           texture = new Texture(Gdx.files.internal("End Screen level 0.png"));
         }
-        else if (score >= 1000 && score < 5000)
+        else if (score >= 1000 && score < 3000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 1.png")); 
         }
-        else if (score >= 5000 && score < 10000)
+        else if (score >= 3000 && score < 7000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 2.png")); 
         }
-        else if (score >= 10000 && score < 15000)
+        else if (score >= 7000 && score < 10000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 3.png")); 
         }
-        else if (score >= 15000 && score < 25000)
+        else if (score >= 10000 && score < 15000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 4.png")); 
         }
-        else if (score >= 25000)
+        else if (score >= 15000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 5.png")); 
         }
@@ -62,7 +62,8 @@ public class EndScreen implements Screen {
         game.batch.begin();
         game.batch.draw(texture, 0, 0, 800, 480, 0, 0, 1500, 1050, false, false);
 
-        //TO-DO: implement a "return to menu" button
+        //prints the score and a return to menu message
+        game.font.draw(game.batch, "" + score, 105, 200);
         game.font.draw(game.batch, "Press Space to Return to Main Menu", 550, 100);
         game.batch.end();
 
