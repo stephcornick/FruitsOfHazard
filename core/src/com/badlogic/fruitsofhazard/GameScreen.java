@@ -52,17 +52,17 @@ public class GameScreen implements Screen {
         BitmapFont font;
 
         //Prototype Sets a constant movement direction vertically, positive is up, negative down.
-        private int vertical = 0;
+        private float vertical = 0;
 
         //Prototype Sets a constant movement direction horizontally, positive is left, negative right.
-        private int horizontal = 5;
+        private float horizontal = 5;
 
         //a factor to hold the changing speed
-        private int speedFactor = 5;
+        private float speedFactor = 5;
 
         //Prototype Sets the spinning speed of the orange. Negative values spin the orange clockwise, Positive counter.
-        private int rotationFactor = -5;
-        private int rotationFactorSecond = 5;
+        private float rotationFactor = -5;
+        private float rotationFactorSecond = 5;
 
 
     public GameScreen(final FruitsofHazard gam)
@@ -112,8 +112,6 @@ public class GameScreen implements Screen {
         //UNIMPLEMENTED: Alter to spawn different kinds of fruit.
         spawnFruit();
         batch.end();
-
-        //TO-DO: implement title screen that goes to game screen when clicked
 
     }
 
@@ -379,8 +377,8 @@ public class GameScreen implements Screen {
 
                                 }
 
-                                speedFactor = speedFactor + 1;
-                                rotationFactorSecond = rotationFactorSecond + 1;
+                                speedFactor = speedFactor + (float) 0.5;
+                                rotationFactorSecond = rotationFactorSecond + (float) 0.5;
 
                             }
                             else if (nextFruit instanceof HealthFruit)
