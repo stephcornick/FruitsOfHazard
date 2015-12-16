@@ -43,14 +43,11 @@ public class GameScreen implements Screen {
         private SpriteBatch batch; //the sprite batch
         private PlayerOrange orange; //the orange sprite that the player controls
         private Array<Fruit> gameFruits; //an array of fruits in the game
-        private Array<String> turns;
         private DoublyLinkedList<CollectorFruit> fruitTrail; //the trail of collected fruits that will follow the orange
-        private String direction = "right";
         private long lastSpawnTime; //counter that keeps track of the time between fruit spawning
 
         //Project 1
         //Reporposed FPS display to display score instead -Mike
-        private String score;
         private String msg;
         BitmapFont font;
 
@@ -60,8 +57,12 @@ public class GameScreen implements Screen {
         //Prototype Sets a constant movement direction horizontally, positive is left, negative right.
         private int horizontal = 5;
 
+        //a factor to hold the changing speed
+        private int speedFactor = 5;
+
         //Prototype Sets the spinning speed of the orange. Negative values spin the orange clockwise, Positive counter.
         private int rotationFactor = -5;
+        private int rotationFactorSecond = 5;
 
 
     public GameScreen(final FruitsofHazard gam)
@@ -77,10 +78,10 @@ public class GameScreen implements Screen {
         //Producing a sprite for the orange.
         orange = new PlayerOrange();
 
-        //Prototype fruit collection sound, drop.wave used as a placeholder, Bravo Riff.mp3 for working sound.
-        collectSound = Gdx.audio.newSound(Gdx.files.internal("Bravo Riff.mp3"));
+        //Prototype fruit collection sound, smb_coin.wav
+        collectSound = Gdx.audio.newSound(Gdx.files.internal("smb_coin.wav"));
 
-        //Prototype backround music, rain.mp3 used as a placeholder, BackgroundMusic.mp3 for working sound.
+        //Prototype backround music, BackgroundMusic.mp3
         backroundMusic = Gdx.audio.newMusic(Gdx.files.internal("BackgroundMusic.mp3"));
 
         //Sets background music to play at startup and loop constantly.
@@ -95,7 +96,7 @@ public class GameScreen implements Screen {
         //camera.setToOrtho(false, horizontalScreenSize, verticalScreenSize);
 
         //Sets the camera size.
-        camera.setToOrtho(false, 1600, 860);
+        camera.setToOrtho(false, 1200, 660);
 
         batch = new SpriteBatch();
         batch.begin();
@@ -119,8 +120,8 @@ public class GameScreen implements Screen {
     private void spawnFruit() {
 
         //randomly selects x and y coordinates on intervals of 50 pixels
-        int spawnX = MathUtils.random(0, ((1600-50)/50)) * 50;
-        int spawnY = MathUtils.random(0, ((860-100)/50)) * 50;
+        int spawnX = MathUtils.random(0, ((1200-50)/50)) * 50;
+        int spawnY = MathUtils.random(1, ((660-100)/50)) * 50;
 
         //random number to determine which fruit to spawn, weighted by rarity
         int whichFruit = MathUtils.random(0, 16);
@@ -211,38 +212,14 @@ public class GameScreen implements Screen {
             if(fruitTrail.isEmpty() == false)
             {
                 Iterator<CollectorFruit> iterC = fruitTrail.iterator();
-                int xx = (int) orange.getX();
-                //int xx = 1000 - (fruitTrail.size() * 50);
-                int yy = (int) orange.getY();
+                int xx = 1200 - (fruitTrail.size() * 50);
+                int yy = 660 - 50;
                 while(iterC.hasNext())
                 {
                     CollectorFruit c = iterC.next();
-                    if(direction == "up")
-                    {
-                        // yy = (int) orange.getY();
-                        // xx = xx + 50;
-                        xx = (int) orange.getX();
-                        yy = yy - 50;
-                    }
-                    else if(direction == "down")
-                    {
-                        xx = (int) orange.getX();
-                        yy = yy + 50;
-                    }
-                    else if(direction == "left")
-                    {
-                        yy = (int) orange.getY();
-                        xx = xx + 50;
-                    }
-                    else //direction == right
-                    {
-                        yy = (int) orange.getY();
-                        xx = xx - 50;
-                    }
-
                     c.draw(batch);
                     c.setPosition(xx, yy);
-                    //xx = xx + 50
+                    xx = xx + 50;
                 }
             }
             //Sets FPS font color
@@ -262,32 +239,32 @@ public class GameScreen implements Screen {
                 case RUN:
 
                     batch.begin();
+
+                    //draws the score, health, and pause
                     msg = "Score: " + orange.getScore() + "\nHealth: " + orange.getHealth() + "\nPress [space] to pause";
-                    font.draw(batch, msg, 10, 850);
+                    font.draw(batch, msg, 20, 660);
                     batch.end();
 
                     //Left key single-press movement.
                     if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
                     {
                         //Sets the orange to move left at a specified rate.
-                        horizontal =-5;
+                        horizontal =-1 * speedFactor;
                         vertical = 0;
 
                         //Sets orange rotation to mirror left movement.
-                        rotationFactor = 5;
-                        direction = "left";
+                        rotationFactor = rotationFactorSecond;
                     }
 
                     //Right key single-press movement
                     if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
                     {
                         //Sets the orange to move right at a specified rate.
-                        horizontal = 5;
+                        horizontal = speedFactor;
                         vertical = 0;
 
                         //Sets orange rotation to mirror right movements.
-                        rotationFactor = -5;
-                        direction = "right";
+                        rotationFactor = -1 * rotationFactorSecond;
                     }
 
                     //Up key single-press movement
@@ -295,11 +272,10 @@ public class GameScreen implements Screen {
                     {
                         //Sets the orange to move up at a specified rate.
                         horizontal = 0;
-                        vertical = 5;
+                        vertical = speedFactor;
 
                         //Sets orange rotation to mirror an upward movement
-                        rotationFactor = -5;
-                        direction = "up";
+                        rotationFactor = -1 * rotationFactorSecond;
                     }
 
                     //Down key single-press movement
@@ -307,18 +283,17 @@ public class GameScreen implements Screen {
                     {
                         //Sets the orange to move down at a specified rate.
                         horizontal = 0;
-                        vertical = -5;
+                        vertical = -1 * speedFactor;
 
                         //Sets orange rotation to mirror a downward movement
-                        rotationFactor = 5;
-                        direction = "down";
+                        rotationFactor = rotationFactorSecond;
                     }
 
                     //Moves the orange horizontally and vertically at a constant rate
                     orange.setPosition(orange.getX() + horizontal, orange.getY() + vertical);
 
                     //Prototype Right-to-Left boundary; moves orange to left end if it collides with right boundary
-                    if(orange.getX() > 1600 - 50)
+                    if(orange.getX() > 1200 - 50)
                     {
                         game.setScreen(new EndScreen(game, orange.getScore()));
                         dispose();
@@ -343,7 +318,7 @@ public class GameScreen implements Screen {
                     //Solid boundary; if(orange.y < 0) orange.y = 0;
 
                     //Prototype Upper-to-Lower boundary; moves orange to Lower end if it collides with upper boundary
-                    if(orange.getY() > 860 - 50)
+                    if(orange.getY() > 660 - 50)
                     {
                         game.setScreen(new EndScreen(game, orange.getScore()));
                         dispose();
@@ -377,6 +352,12 @@ public class GameScreen implements Screen {
                                     fruitTrail.addLast(cf);
                                     cf.setIsInList(true);
 
+                                    if(fruitTrail.size() >= 30)
+                                    {
+                                        game.setScreen(new EndScreen(game, orange.getScore()));
+                                        dispose();
+                                    }
+
                                     CollectorFruit one = fruitTrail.last();
                                     CollectorFruit two = fruitTrail.secondLast();
                                     CollectorFruit three = fruitTrail.thirdLast();
@@ -397,6 +378,9 @@ public class GameScreen implements Screen {
                                     }
 
                                 }
+
+                                speedFactor = speedFactor + 1;
+                                rotationFactorSecond = rotationFactorSecond + 1;
 
                             }
                             else if (nextFruit instanceof HealthFruit)
@@ -421,10 +405,10 @@ public class GameScreen implements Screen {
                     orange.rotate(rotationFactor);
                     break;
                 case PAUSE:
-                    //shows an extra message on a paused screen
+                    //shows score, health, unpause, and return to menu
                     msg = "Score: " + orange.getScore() + "\nHealth: " + orange.getHealth() + "\nPress [space] to unpause\nPress Q to return to main menu";
                     batch.begin();
-                    font.draw(batch, msg, 10,850);
+                    font.draw(batch, msg, 20,660);
                     batch.end();
 
                     if(Gdx.input.isKeyPressed(Keys.Q))
