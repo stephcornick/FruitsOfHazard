@@ -35,15 +35,15 @@ public class EndScreen implements Screen {
         {
           texture = new Texture(Gdx.files.internal("End Screen level 2.png")); 
         }
-        else if (score >= 10000 && score < 20000)
+        else if (score >= 10000 && score < 15000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 3.png")); 
         }
-        else if (score >= 20000 && score < 50000)
+        else if (score >= 15000 && score < 25000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 4.png")); 
         }
-        else if (score >= 50000)
+        else if (score >= 25000)
         {
           texture = new Texture(Gdx.files.internal("End Screen level 5.png")); 
         }
